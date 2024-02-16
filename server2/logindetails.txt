@@ -1,0 +1,17 @@
+{
+    "userType": "Student",
+    "emailAddress":"demostudent@mail.com",
+    "password":"demostudentdemo"
+}
+
+{
+    "userType": "Administrator",
+    "emailAddress":"demo@mail.com",
+    "password":"demodemo"
+}
+
+{
+    "userType": "ClassTeacher",
+    "emailAddress":"demo@mail.com",
+    "password":"demodemo"
+}
