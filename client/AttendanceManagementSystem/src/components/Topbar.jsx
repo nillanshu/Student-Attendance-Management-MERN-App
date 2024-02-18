@@ -1,10 +1,7 @@
 import React from 'react'
 import userIcon from '../img/user-icn.png'
 
-const Topbar = () => {
-
-  let fullName = "Nillanshu";
-
+const Topbar = ({user}) => {
   return (
     <>
       <nav className="navbar navbar-expand navbar-light bg-gradient-primary topbar mb-4 static-top">
@@ -39,7 +36,7 @@ const Topbar = () => {
             <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
               <img className="img-profile rounded-circle" src={userIcon} style={{ maxWidth: '60px' }} />
-              <span className="ml-2 d-none d-lg-inline text-white small"><b>Welcome {fullName}</b></span>
+              <span className="ml-2 d-none d-lg-inline text-white small"><b>Welcome {user.firstName + ' ' + user.lastName}</b></span>
             </a>
             <div className="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
               {/* Uncomment and modify as needed

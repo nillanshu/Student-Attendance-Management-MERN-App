@@ -15,15 +15,22 @@ async function dashboard(req, res) {
             models.tblterm.count()
         ]);
 
-        const data = {
-            students,
-            classes,
-            classArms,
-            totalAttendance,
-            classTeachers,
-            sessionNTerms,
-            terms
-        };
+        const data = [
+            {
+              rootUser: req.rootUser
+            },
+            {
+              dashboardCounts: {
+                students,
+                classes,
+                classArms,
+                totalAttendance,
+                classTeachers,
+                sessionNTerms,
+                terms
+              }
+            }
+        ];
 
         res.status(200).send(data);
     } catch(error) {
