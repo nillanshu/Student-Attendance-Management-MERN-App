@@ -4,6 +4,32 @@ const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const {Op} = require('sequelize');
 
+async function dashboard(req, res) {
+    try {
+        //fetch all data
+        const [students, classes, classArms, totalAttendance] = await Promise.all([
+            models.tblstudents.count(),
+            models.tblclass.count(),
+            models.tblclassarms.count(),
+            models.tblattendance.count(),
+        ]);
+
+        const data = {
+            students,
+            classes,
+            classArms,
+            totalAttendance,
+        };
+
+        res.status(200).send(data);
+    } catch(error) {
+        res.status(500).json({
+            message: "Something went wrong!",
+            error: error
+        });
+    }
+}
+
 // manage students
 async function viewStudents(req, res) {
     try {
@@ -387,6 +413,7 @@ async function viewStudentAttendance(req, res) {
 
 
 module.exports = {
+    dashboard,
     viewStudents,
     loadTakeAttendancePage,
     takeAttendance,

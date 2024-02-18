@@ -54,6 +54,7 @@ function login(req, res){
                 bcryptjs.compare(req.body.password, user.password, function(err, result){
                     if(result){
                         jwt.sign({
+                            role: req.body.userType,
                             emailAddress: user.emailAddress,
                             userId: user.id
                         }, process.env.JWT_KEY, function(err, token){
@@ -101,6 +102,7 @@ function login(req, res){
                 bcryptjs.compare(req.body.password, user.password, function(err, result){
                     if(result){
                         jwt.sign({
+                            role: req.body.userType,
                             emailAddress: user.emailAddress,
                             userId: user.id
                         }, process.env.JWT_KEY, function(err, token){
@@ -151,6 +153,7 @@ function login(req, res){
                 bcryptjs.compare(req.body.password, user.password, function(err, result){
                     if(result){
                         jwt.sign({
+                            role: req.body.userType,
                             emailAddress: user.emailAddress,
                             userId: user.id
                         }, process.env.JWT_KEY, function(err, token){

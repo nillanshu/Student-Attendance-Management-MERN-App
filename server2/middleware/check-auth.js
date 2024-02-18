@@ -5,7 +5,10 @@ async function CheckAdminAuth(req, res, next) {
     try{
         const token = req.cookies.jwtoken;
         const verifyToken = jwt.verify(token, process.env.JWT_KEY);
-        const rootUser = await models.tbladmin.findOne({where: {emailAddress: verifyToken.emailAddress}});
+        if (verifyToken.role !== 'Administrator') {
+            throw new Error('Unauthorized');
+        }
+        const rootUser = await models.tbladmin.findOne({where: {emailAddress: verifyToken.emailAddress, id: verifyToken.userId}});
         if (!rootUser) { throw new Error('User not found') }
         req.token = token;
         req.rootUser = rootUser;
@@ -22,7 +25,10 @@ async function CheckTeacherAuth(req, res, next) {
     try{
         const token = req.cookies.jwtoken;
         const verifyToken = jwt.verify(token, process.env.JWT_KEY);
-        const rootUser = await models.tblclassteacher.findOne({where: {emailAddress: verifyToken.emailAddress}});
+        if (verifyToken.role !== 'ClassTeacher') {
+            throw new Error('Unauthorized');
+        }
+        const rootUser = await models.tblclassteacher.findOne({where: {emailAddress: verifyToken.emailAddress, id: verifyToken.userId}});
         if (!rootUser) { throw new Error('User not found') }
         req.token = token;
         req.rootUser = rootUser;
@@ -39,7 +45,10 @@ async function CheckStudentAuth(req, res, next) {
     try{
         const token = req.cookies.jwtoken;
         const verifyToken = jwt.verify(token, process.env.JWT_KEY);
-        const rootUser = await models.tblstudents.findOne({where: {emailAddress: verifyToken.emailAddress}});
+        if (verifyToken.role !== 'Student') {
+            throw new Error('Unauthorized');
+        }
+        const rootUser = await models.tblstudents.findOne({where: {emailAddress: verifyToken.emailAddress, id: verifyToken.userId}});
         if (!rootUser) { throw new Error('User not found') }
         req.token = token;
         req.rootUser = rootUser;

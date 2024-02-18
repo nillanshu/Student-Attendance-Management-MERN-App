@@ -78,7 +78,7 @@ export let teacherConstant=[
         icon: 'fas fa-chalkboard',
         manageText: 'Manage Students',
         links: [
-          { href: 'createStudennt.php', text: 'Create Student' },
+          { href: 'viewStudennt.php', text: 'View Students' },
         ]
       },
     ]

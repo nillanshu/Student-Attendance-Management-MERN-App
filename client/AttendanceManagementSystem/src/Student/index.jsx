@@ -1,4 +1,4 @@
-import React from 'react'
+import { React, useEffect, useState } from 'react'
 import Topbar from '../components/Topbar'
 import Sidebar from '../components/Sidebar'
 import Footer from '../components/Footer'
@@ -9,8 +9,32 @@ import '../css/ruang-admin.min.css'
 // import '../vendor/bootstrap/js/bootstrap.bundle.min.js'
 // import '../vendor/jquery-easing/jquery.easing.min.js'
 import { studentConstant } from '../constants'
+import { useNavigate } from 'react-router-dom'
+import callDashboardPage from '../api/api.studentDashboard'
 
 const index = () => {
+
+  const [dashboardData, setdashboardData] = useState({});
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    callDashboardPage()
+      .then(data => {
+        setdashboardData(data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        navigate('/login');
+      });
+  }, []);
+
+  const data = [
+    { title: 'Students', count: dashboardData.students, change: 'up', changePercent: 20.4, icon: 'users', color: 'info' },
+    { title: 'Classes', count: dashboardData.classes, change: 'up', changePercent: 3.48, icon: 'chalkboard', color: 'primary' },
+    { title: 'Class Arms', count: dashboardData.classArms, change: 'down', changePercent: 4.38, icon: 'code-branch', color: 'success' },
+    { title: 'Total Student Attendance', count: dashboardData.totalAttendance, change: 'down', changePercent: 3.48, icon: 'calendar', color: 'warning' },
+  ];
+
   return (
     <>
       <div id="page-top">
@@ -33,87 +57,27 @@ const index = () => {
                 </div>
                 <div className="row mb-3">
                   {/* students card */}
-
-                  <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card h-100">
-                      <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                          <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Students</div>
-                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">8</div>
-                            <div class="mt-2 mb-0 text-muted text-xs">
-                              <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 20.4%</span>
-                              <span>Since last month</span>
+                  {data.map((item, index) => (
+                    <div className="col-xl-3 col-md-6 mb-4" key={index}>
+                      <div className="card h-100">
+                        <div className="card-body">
+                          <div className="row no-gutters align-items-center">
+                            <div className="col mr-2">
+                              <div className="text-xs font-weight-bold text-uppercase mb-1">{item.title}</div>
+                              <div className="h5 mb-0 font-weight-bold text-gray-800">{item.count}</div>
+                              <div className="mt-2 mb-0 text-muted text-xs">
+                                <span className={`text-${item.change} mr-2`}><i className={`fas fa-arrow-${item.change}`}></i> {item.changePercent}%</span>
+                                <span>Since last month</span>
+                              </div>
                             </div>
-                          </div>
-                          <div class="col-auto">
-                            <i class="fas fa-users fa-2x text-info"></i>
+                            <div className="col-auto">
+                              <i className={`fas fa-${item.icon} fa-2x text-${item.color}`}></i>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-
-                  <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card h-100">
-                      <div class="card-body">
-                        <div class="row align-items-center">
-                          <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Classes</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
-                            <div class="mt-2 mb-0 text-muted text-xs">
-                              <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                              <span>Since last month</span>
-                            </div>
-                          </div>
-                          <div class="col-auto">
-                            <i class="fas fa-chalkboard fa-2x text-primary"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card h-100">
-                      <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                          <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Class Arms</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">4</div>
-                            <div class="mt-2 mb-0 text-muted text-xs">
-                              <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
-                              <span>Since last years</span>
-                            </div>
-                          </div>
-                          <div class="col-auto">
-                            <i class="fas fa-code-branch fa-2x text-success"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card h-100">
-                      <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                          <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Total Student Attendance</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">24</div>
-                            <div class="mt-2 mb-0 text-muted text-xs">
-                              <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
-                              <span>Since yesterday</span>
-                            </div>
-                          </div>
-                          <div class="col-auto">
-                            <i class="fas fa-calendar fa-2x text-warning"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
+                  ))}
                 </div>
               </div>
             </div>
