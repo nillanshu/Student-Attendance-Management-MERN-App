@@ -28,12 +28,12 @@ const index = () => {
       });
   }, []);
 
-  const data = [
-    { title: 'Students', count: dashboardData.students, change: 'up', changePercent: 20.4, icon: 'users', color: 'info' },
-    { title: 'Classes', count: dashboardData.classes, change: 'up', changePercent: 3.48, icon: 'chalkboard', color: 'primary' },
-    { title: 'Class Arms', count: dashboardData.classArms, change: 'down', changePercent: 4.38, icon: 'code-branch', color: 'success' },
-    { title: 'Total Student Attendance', count: dashboardData.totalAttendance, change: 'down', changePercent: 3.48, icon: 'calendar', color: 'warning' },
-  ];
+  const data = dashboardData[1] ? [
+    { title: 'Students', count: dashboardData[1].dashboardCounts.students, change: 'up', changePercent: 20.4, icon: 'users', color: 'info' },
+    { title: 'Classes', count: dashboardData[1].dashboardCounts.classes, change: 'up', changePercent: 3.48, icon: 'chalkboard', color: 'primary' },
+    { title: 'Class Arms', count: dashboardData[1].dashboardCounts.classArms, change: 'down', changePercent: 4.38, icon: 'code-branch', color: 'success' },
+    { title: 'Total Student Attendance', count: dashboardData[1].dashboardCounts.totalAttendance, change: 'down', changePercent: 3.48, icon: 'calendar', color: 'warning' },
+  ] : [];
 
   return (
     <>
@@ -44,7 +44,7 @@ const index = () => {
           <div id="content-wrapper" className='d-flex flex-column'>
             <div id="content">
               {/* Topbar */}
-              <Topbar />
+              <Topbar user={dashboardData[0] ? dashboardData[0].rootUser : {}}/>
 
               {/* Container Fluid */}
               <div className="container-fluid" id="container-wrapper">

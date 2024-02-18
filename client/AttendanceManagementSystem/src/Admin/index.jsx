@@ -44,7 +44,7 @@ const index = () => {
           <div id="content-wrapper" className='d-flex flex-column'>
             <div id="content">
               {/* Topbar */}
-              <Topbar user={dashboardData[0] ? dashboardData[0].rootUser : []}/>
+              <Topbar user={dashboardData[0] ? dashboardData[0].rootUser : {}}/>
 
               {/* Container Fluid */}
               <div className="container-fluid" id="container-wrapper">
