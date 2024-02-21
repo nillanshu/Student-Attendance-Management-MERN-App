@@ -25,13 +25,13 @@ const Login = () => {
       if (user) {
         switch (userType) {
           case "Administrator":
-            navigate('/Admin');
+            navigate('/Admin/dashboard');
             break;
           case "ClassTeacher":
-            navigate('/ClassTeacher');
+            navigate('/ClassTeacher/dashboard');
             break;
           case "Student":
-            navigate('/Student');
+            navigate('/Student/dashboard');
             break;
           default:
             break;

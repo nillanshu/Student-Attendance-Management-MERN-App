@@ -13,6 +13,7 @@ router.post('/login', userController.login);
 
 // admin routes start
 router.post('/admin/dashboard', checkAuth.CheckAdminAuth, adminController.dashboard);
+router.post('/admin/authenticate', adminController.adminAuth);
 
 //class routes
 router.post('/admin/createClass', checkAuth.CheckAdminAuth, adminController.createClass);
@@ -51,6 +52,9 @@ router.delete('/admin/deleteSession/:id', checkAuth.CheckAdminAuth, adminControl
 // admin routes end
 
 // Class Teacher routes start
+
+router.post('/classTeacher/authenticate', teacherController.teacherAuth);
+
 router.post('/classTeacher/dashboard', checkAuth.CheckTeacherAuth, teacherController.dashboard);
 router.get('/classTeacher/viewStudents', checkAuth.CheckTeacherAuth, teacherController.viewStudents);
 router.post('/classTeacher/loadTakeAttendancePage', checkAuth.CheckTeacherAuth, teacherController.loadTakeAttendancePage);
@@ -61,6 +65,7 @@ router.get('/classTeacher/viewStudentAttendance', checkAuth.CheckTeacherAuth, te
 // class teacher routes end
 
 // student routes start
+router.post('/student/authenticate', studentController.studentAuth);
 router.get('/student/viewAttendance', checkAuth.CheckStudentAuth, studentController.viewAttendance);
 router.post('/student/dashboard', checkAuth.CheckStudentAuth, studentController.dashboard);
 

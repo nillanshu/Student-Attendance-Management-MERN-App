@@ -37,6 +37,29 @@ async function dashboard(req, res) {
     }
 }
 
+async function teacherAuth(req, res) {
+    try{
+        const token = req.cookies.jwtoken;
+        const verifyToken = jwt.verify(token, process.env.JWT_KEY);
+        if (verifyToken.role !== 'ClassTeacher') {
+            throw new Error('Unauthorized');
+        }
+        const rootUser = await models.tblclassteacher.findOne({
+            where: { emailAddress: verifyToken.emailAddress, id: verifyToken.userId },
+            attributes: ['firstName', 'lastName', 'emailAddress']
+        });
+        if (!rootUser) { throw new Error('User not found') }
+        req.token = token;
+        req.rootUser = rootUser;
+        return res.status(200).send(rootUser);
+    }catch(e){
+        return res.status(401).json({
+            'message': "Invalid or expired token provided!",
+            'error':e
+        });
+    }
+}
+
 // manage students
 async function viewStudents(req, res) {
     try {
@@ -421,6 +444,7 @@ async function viewStudentAttendance(req, res) {
 
 module.exports = {
     dashboard,
+    teacherAuth,
     viewStudents,
     loadTakeAttendancePage,
     takeAttendance,

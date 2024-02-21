@@ -2,6 +2,7 @@ import React from 'react'
 import userIcon from '../img/user-icn.png'
 
 const Topbar = ({user}) => {
+
   return (
     <>
       <nav className="navbar navbar-expand navbar-light bg-gradient-primary topbar mb-4 static-top">

@@ -1,7 +1,8 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import attnLogo from '../img/logo/attnlg.jpg'
 
-const Sidebar = ({ sections }) => {
+const Sidebar = ({ sections, link = {} }) => {
   return (
     <>
         <ul className="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
@@ -13,10 +14,10 @@ const Sidebar = ({ sections }) => {
         </a>
         <hr className="sidebar-divider my-0" />
         <li className="nav-item active">
-            <a className="nav-link" href="index.php">
+          <Link className="nav-link" to={link.href}>
             <i className="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span>
-            </a>
+          </Link>
         </li>
         <hr className="sidebar-divider" />
 
