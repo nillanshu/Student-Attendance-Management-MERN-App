@@ -20,7 +20,7 @@ export let adminConstant = {
           icon: 'fas fa-chalkboard',
           manageText: 'Manage Classes',
           links: [
-            { href: 'createClass.php', text: 'Create Class' },
+            { href: '/Admin/createClass', text: 'Create Class' },
           ]
         },
         {

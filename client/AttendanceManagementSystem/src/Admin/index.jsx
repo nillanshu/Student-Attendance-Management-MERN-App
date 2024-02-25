@@ -10,6 +10,7 @@ import '../css/ruang-admin.min.css'
 import {adminConstant} from '../constants/index'
 import adminAuth from '../api/adminApis/api.adminAuth'
 import Dashboard from './pages/Dashboard';
+import CreateClass from './pages/CreateClass';
 
 const index = () => {
 
@@ -41,6 +42,7 @@ const index = () => {
               {/* Container Fluid */}
               <Routes>
                 <Route path='/Admin/dashboard' element={<Dashboard />} />
+                <Route path='/Admin/createClass' element={<CreateClass />} />
               </Routes>
               <Outlet />
 

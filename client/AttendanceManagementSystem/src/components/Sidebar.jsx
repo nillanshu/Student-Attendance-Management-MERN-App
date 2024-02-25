@@ -37,7 +37,7 @@ const Sidebar = ({ sections, link = {} }) => {
                   <div className="bg-white py-2 collapse-inner rounded">
                     <h6 className="collapse-header">{item.manageText}</h6>
                     {item.links.map((link, linkIndex) => (
-                      <a className="collapse-item" href={link.href} key={`link-${sectionIndex}-${itemIndex}-${linkIndex}`}>{link.text}</a>
+                      <Link className="collapse-item" to={link.href} key={`link-${sectionIndex}-${itemIndex}-${linkIndex}`}>{link.text}</Link>
                     ))}
                   </div>
                 </div>

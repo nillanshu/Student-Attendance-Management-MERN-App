@@ -58,7 +58,7 @@ const Login = () => {
                             <img src={ attnlogo } style={{width: '100px', height: '100px'}} />
                             <br/>
                             <br/>
-                            <h1 className="h4 text-gray-900 mb-4">Admin Login Panel</h1>
+                            <h1 className="h4 text-gray-900 mb-4">Login Panel</h1>
                         </div>
                         <form className="user" method="post" action="" onSubmit={handleLogin}>
                             <div className="form-group">
