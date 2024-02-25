@@ -25,13 +25,13 @@ const Login = () => {
       if (user) {
         switch (userType) {
           case "Administrator":
-            navigate('/Admin');
+            navigate('/Admin/dashboard');
             break;
           case "ClassTeacher":
-            navigate('/ClassTeacher');
+            navigate('/ClassTeacher/dashboard');
             break;
           case "Student":
-            navigate('/Student');
+            navigate('/Student/dashboard');
             break;
           default:
             break;
@@ -58,7 +58,7 @@ const Login = () => {
                             <img src={ attnlogo } style={{width: '100px', height: '100px'}} />
                             <br/>
                             <br/>
-                            <h1 className="h4 text-gray-900 mb-4">Admin Login Panel</h1>
+                            <h1 className="h4 text-gray-900 mb-4">Login Panel</h1>
                         </div>
                         <form className="user" method="post" action="" onSubmit={handleLogin}>
                             <div className="form-group">

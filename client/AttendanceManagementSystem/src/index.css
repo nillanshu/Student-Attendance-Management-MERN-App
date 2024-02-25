@@ -21,7 +21,7 @@ a:focus {
 #wrapper #content-wrapper {
   background-color: #FAFDFB;
   width: 100%;
-  overflow-x: hidden;  
+  overflow-x: hidden;
 }
 
 #wrapper #content-wrapper #content {
@@ -30,15 +30,12 @@ a:focus {
   flex: 1 0 auto;
 }
 
-
 .container,
 .container-fluid,
 .container-login {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 }
-
-
 
 @media (min-width:768px) {
   .container-login {

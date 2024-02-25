@@ -1,6 +1,7 @@
 const models = require('../models');
 require('../helpers/associations');
 const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 async function dashboard(req, res) {
     try {
@@ -15,21 +16,51 @@ async function dashboard(req, res) {
             models.tblterm.count()
         ]);
 
-        const data = {
-            students,
-            classes,
-            classArms,
-            totalAttendance,
-            classTeachers,
-            sessionNTerms,
-            terms
-        };
+        const data = [
+            {
+              rootUser: req.rootUser
+            },
+            {
+              dashboardCounts: {
+                students,
+                classes,
+                classArms,
+                totalAttendance,
+                classTeachers,
+                sessionNTerms,
+                terms
+              }
+            }
+        ];
 
         res.status(200).send(data);
     } catch(error) {
         res.status(500).json({
             message: "Something went wrong!",
             error: error
+        });
+    }
+}
+
+async function adminAuth(req, res) {
+    try{
+        const token = req.cookies.jwtoken;
+        const verifyToken = jwt.verify(token, process.env.JWT_KEY);
+        if (verifyToken.role !== 'Administrator') {
+            throw new Error('Unauthorized');
+        }
+        const rootUser = await models.tbladmin.findOne({
+            where: { emailAddress: verifyToken.emailAddress, id: verifyToken.userId },
+            attributes: ['firstName', 'lastName', 'emailAddress']
+        });
+        if (!rootUser) { throw new Error('User not found') }
+        req.token = token;
+        req.rootUser = rootUser;
+        return res.status(200).send(rootUser);
+    }catch(e){
+        return res.status(401).json({
+            'message': "Invalid or expired token provided!",
+            'error':e
         });
     }
 }
@@ -474,6 +505,7 @@ async function deleteSession(req, res) {
 
 module.exports = {
     dashboard,
+    adminAuth,
     createClass,
     getAllClasses,
     editClass,

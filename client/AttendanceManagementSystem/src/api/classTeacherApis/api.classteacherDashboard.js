@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export default async function callAdminPage() {
-    const res = await axios.post('/user/admin/dashboard', {
+export default async function callDashboardPage() {
+    const res = await axios.post('/user/classTeacher/dashboard', {
         headers: {
           "Content-Type": "application/json"
         }
