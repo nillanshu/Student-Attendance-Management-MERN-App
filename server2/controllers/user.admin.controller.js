@@ -151,23 +151,6 @@ async function getAllClassArms(req, res) {
     }
 }
 
-async function selectClass(req, res) {
-    try {
-        const classes = await models.tblclass.findAll({
-            order: [
-              ['className', 'ASC']
-            ]
-          });
-        if (classes) {
-            res.status(200).send(classes);
-        } else {
-            res.send("<div className='alert alert-danger' style='margin-right:700px;'>An error Occurred while fetching classes!</div>");
-        }
-    } catch (error) {
-        res.send(`<div className='alert alert-danger' style='margin-right:700px;'>An error Occurred! Error: ${error.message}</div>`);
-    }
-}
-
 async function createClassArm(req, res) {
     const { classId, classArmName } = req.body;
     const isAssigned = "0";
@@ -512,7 +495,6 @@ module.exports = {
     deleteClass,
     getAllClassArms,
     createClassArm,
-    selectClass,
     editClassArm,
     deleteClassArm,
     getAllClassTeachers,

@@ -23,7 +23,6 @@ router.delete('/admin/deleteClass/:id', checkAuth.CheckAdminAuth, adminControlle
 
 //classArms routes
 router.get('/admin/getAllClassArms', checkAuth.CheckAdminAuth, adminController.getAllClassArms);
-router.get('/admin/selectClass', checkAuth.CheckAdminAuth, adminController.selectClass);
 router.post('/admin/createClassArm', checkAuth.CheckAdminAuth, adminController.createClassArm);
 router.patch('/admin/editClassArm/:id', checkAuth.CheckAdminAuth, adminController.editClassArm);
 router.delete('/admin/deleteClassArm/:id', checkAuth.CheckAdminAuth, adminController.deleteClassArm);

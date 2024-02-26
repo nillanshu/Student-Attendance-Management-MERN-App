@@ -27,7 +27,7 @@ export let adminConstant = {
           icon: 'fas fa-code-branch',
           manageText: 'Manage Class Arms',
           links: [
-            { href: 'createClassArms.php', text: 'Create Class Arms' },
+            { href: '/Admin/createClassArm', text: 'Create Class Arms' },
           ]
         },
       ]

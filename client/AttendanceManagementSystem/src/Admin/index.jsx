@@ -11,6 +11,7 @@ import {adminConstant} from '../constants/index'
 import adminAuth from '../api/adminApis/api.adminAuth'
 import Dashboard from './pages/Dashboard';
 import CreateClass from './pages/CreateClass';
+import CreateClassArm from './pages/createClassArm';
 
 const index = () => {
 
@@ -43,6 +44,7 @@ const index = () => {
               <Routes>
                 <Route path='/Admin/dashboard' element={<Dashboard />} />
                 <Route path='/Admin/createClass' element={<CreateClass />} />
+                <Route path='/Admin/createClassArm' element={<CreateClassArm />} />
               </Routes>
               <Outlet />
 
