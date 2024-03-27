@@ -29,6 +29,7 @@ router.delete('/admin/deleteClassArm/:id', checkAuth.CheckAdminAuth, adminContro
 
 //class teacher routes
 router.get('/admin/getAllClassTeachers', checkAuth.CheckAdminAuth, adminController.getAllClassTeachers);
+router.get('/admin/getAllSubjects', checkAuth.CheckAdminAuth, adminController.getAllSubjects);
 router.post('/admin/createClassTeacher', checkAuth.CheckAdminAuth, adminController.createClassTeacher);
 router.get('/admin/getClassArmsByClass', checkAuth.CheckAdminAuth, adminController.getClassArmsByClass);
 router.patch('/admin/editClassTeacher/:id', checkAuth.CheckAdminAuth, adminController.editClassTeacher);
