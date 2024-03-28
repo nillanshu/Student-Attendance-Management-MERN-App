@@ -205,7 +205,7 @@ async function deleteClassArm(req, res) {
 async function getAllClassTeachers(req, res) {
     try {
         const result = await models.tblclassteacher.findAll({
-            attributes: ['firstName', 'lastName', 'emailAddress', 'phoneNo', 'createdAt'],
+            attributes: ['id', 'firstName', 'lastName', 'emailAddress', 'phoneNo', 'createdAt'],
             include: [{
                 model: models.tblclass,
                 attributes: ['className'],
@@ -232,8 +232,23 @@ async function getAllClassTeachers(req, res) {
     }
 }
 
+async function getAllSubjects(req, res) {
+    try {
+        const result = await models.tblsubject.findAll({
+            attributes: ['id', 'subjName']
+        });
+        if (result) {
+            res.status(200).send(result);
+        } else {
+            res.send("<div className='alert alert-danger' style='margin-right:700px;'>An error Occurred while fetching Subjects!</div>");
+        }
+    } catch (error) {
+        res.send(`<div className='alert alert-danger' style='margin-right:700px;'>An error Occurred! Error: ${error.message}</div>`);
+    }
+}
+
 async function createClassTeacher(req, res) {
-    const { firstName, lastName, emailAddress, classId, classArmId, phoneNo, subjId } = req.body;
+    const { firstName, lastName, emailAddress, phoneNo, classId, classArmId, subjId } = req.body;
     let samplePassword = 'pass123';
     const salt = await bcryptjs.genSalt(10);
     samplePassword = await bcryptjs.hash(samplePassword, salt);
@@ -241,18 +256,18 @@ async function createClassTeacher(req, res) {
         const existingClassTeacher = await models.tblclassteacher.findOne({ where: { emailAddress } });
 
         if (existingClassTeacher) {
-          res.send("<div className='alert alert-danger' style='margin-right:700px;'>This Teacher Already Exists!</div>");
+          res.status(409).json({ message: "This Teacher Already Exists!" });
         } else {
-          await models.tblclassteacher.create({ firstName, lastName, emailAddress, password: samplePassword, classId, classArmId, phoneNo, subjId });
-          res.send("<div className='alert alert-success'  style='margin-right:700px;'>Created Successfully!</div>");
+          await models.tblclassteacher.create({ firstName, lastName, emailAddress, phoneNo, password: samplePassword, classId, classArmId, subjId });
+          res.status(201).json({ message: "Created Successfully!" });
         }
       } catch (error) {
-        res.send(`<div className='alert alert-danger' style='margin-right:700px;'>An error Occurred! Error: ${error.message}</div>`);
+        res.status(500).json({ message: `An error Occurred! Error: ${error.message}` });
       }
 }
 
 async function getClassArmsByClass(req, res) {
-    const className = req.body.className;
+    const classId = req.query.classId;
     try {
         const result = await models.tblclassarms.findAll({
             attributes: ['Id', 'isAssigned', 'classArmName'],
@@ -260,7 +275,7 @@ async function getClassArmsByClass(req, res) {
               model: models.tblclass,
               attributes: ['className'],
               required: true,
-              where: {className}
+              where: {Id : classId}
             }]
         });
         if (result) {
@@ -498,6 +513,7 @@ module.exports = {
     editClassArm,
     deleteClassArm,
     getAllClassTeachers,
+    getAllSubjects,
     createClassTeacher,
     getClassArmsByClass,
     editClassTeacher,

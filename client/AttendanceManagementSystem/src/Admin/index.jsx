@@ -12,6 +12,7 @@ import adminAuth from '../api/adminApis/api.adminAuth'
 import Dashboard from './pages/Dashboard';
 import CreateClass from './pages/CreateClass';
 import CreateClassArm from './pages/createClassArm';
+import CreateClassTeacher from './pages/createClassTeacher';
 
 const index = () => {
 
@@ -45,6 +46,7 @@ const index = () => {
                 <Route path='/Admin/dashboard' element={<Dashboard />} />
                 <Route path='/Admin/createClass' element={<CreateClass />} />
                 <Route path='/Admin/createClassArm' element={<CreateClassArm />} />
+                <Route path='/Admin/createClassTeacher' element={<CreateClassTeacher />} />
               </Routes>
               <Outlet />
 
