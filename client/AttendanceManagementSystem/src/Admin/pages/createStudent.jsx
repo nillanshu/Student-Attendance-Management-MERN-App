@@ -1,80 +1,76 @@
 import React, { useState, useEffect} from 'react';
 import DataTable from 'react-data-table-component';
 import Location from '../../components/Location';
-import * as api from '../../api/adminApis/api.classTeachers';
+import * as api from '../../api/adminApis/api.student';
+import { fetchClassArmsByClass } from '../../api/adminApis/api.classTeachers';
 import {fetchClasses} from '../../api/adminApis/api.Classes';
 
-const CreateClassTeacher = () => {
-  const [teachers, setTeachers] = useState([]);
-  const [teacherInfo, setTeacherInfo] = useState({
+const CreateStudent = () => {
+  const [students, setStudents] = useState([]);
+  const [studentInfo, setStudentInfo] = useState({
     firstName: '',
     lastName: '',
     emailAddress: '',
+    admissionNumber: '',
     phoneNo: '',
     classId: '',
-    classArmId: '',
-    subjId: ''
+    classArmId: ''
   });
   const [classArms, setClassArms] = useState([]);
   const [classes, setClasses] = useState([]);
-  const [subjects, setSubjects] = useState([]);
   const [statusMsg, setStatusMsg] = useState('');
-  const [filteredTeachers, setFilteredTeachers] = useState([]);
+  const [filteredStudents, setFilteredStudents] = useState([]);
 
   const location = {
-    currentPage: 'Create Class Teacher',
-    route: '/Admin/createClassTeacher'
+    currentPage: 'Create Student',
+    route: '/Admin/createStudent'
   };
 
   useEffect(() => {
     fetchClasses().then(data => {
       setClasses(data);
     });
-    api.fetchClassTeachers()
+    api.fetchStudents()
     .then(data => {
-      setTeachers(data);
-      setFilteredTeachers(data);
+      setStudents(data);
+      setFilteredStudents(data);
     })
     .catch(error => {
       console.error('Error:', error);
       navigate('/login');
     });
-    api.fetchSubjects().then(data => {
-      setSubjects(data);
-    });
   }, []);
 
   useEffect(() => {
-    if (teacherInfo.classId) {
-      api.fetchClassArmsByClass(teacherInfo.classId).then(data => {
-        console.log(data);
+    if (studentInfo.classId) {
+      fetchClassArmsByClass(studentInfo.classId).then(data => {
         if (Array.isArray(data)) {
           setClassArms(data);
         }
       });
     }
-  }, [teacherInfo.classId]);
+  }, [studentInfo.classId]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      await api.createClassTeacher(teacherInfo.firstName, teacherInfo.lastName, teacherInfo.emailAddress, teacherInfo.phoneNo, teacherInfo.classId, teacherInfo.classArmId, teacherInfo.subjId);
-      setStatusMsg('Class Teacher created successfully');
+      await api.createStudent(studentInfo.firstName, studentInfo.lastName, studentInfo.emailAddress, studentInfo.admissionNumber, studentInfo.phoneNo, studentInfo.classId, studentInfo.classArmId);
+      setStatusMsg('Student created successfully');
 
-      setTeacherInfo({
+      setStudentInfo({
         firstName: '',
         lastName: '',
         emailAddress: '',
+        admissionNumber: '',
         phoneNo: '',
         classId: '',
-        classArmId: '',
-        subjId: ''
+        classArmId: ''
       });
 
-      const data = await api.fetchClassTeachers();
-      setTeachers(data);
-      setFilteredTeachers(data);
+      const data = await api.fetchStudents();
+      setStudents(data);
+      setFilteredStudents(data);
     } catch (error) {
       console.error('Error:', error);
       setStatusMsg('Error occurred while submitting the form');
@@ -83,30 +79,31 @@ const CreateClassTeacher = () => {
 
   const handleDelete = async (id) => {
     try {
-      await api.deleteClassTeacher(id);
-      setStatusMsg('Class Teacher deleted successfully');
-      const data = await api.fetchClassTeachers();
-      setTeachers(data);
-      setFilteredTeachers(data);
+      await api.deleteStudent(id);
+      setStatusMsg('Student deleted successfully');
+      const data = await api.fetchStudents();
+      setStudents(data);
+      setFilteredStudents(data);
     } catch (error) {
       console.error('Error:', error);
-      setStatusMsg('Error occurred while deleting the Class Teacher');
+      setStatusMsg('Error occurred while deleting the Student');
     }
   };
 
   function handleFilter(e) {
     let filterValue = e.target.value.toLowerCase();
     if (filterValue === '') {
-      setFilteredTeachers(teachers);
+      setFilteredStudents(students);
     } else {
-      let newData = teachers.filter(row => {
-        return row.firstName.toLowerCase().includes(filterValue.toLowerCase())
-          || row.lastName.toLowerCase().includes(filterValue.toLowerCase())
+      let newData = students.filter(row => {
+        return row.firstName.toLowerCase().includes(filterValue)
+          || row.lastName.toLowerCase().includes(filterValue)
           || row.id.toString().includes(filterValue)
-          || row.tblclass.className.toString().toLowerCase().includes(filterValue.toLowerCase())
-          || row.emailAddress.toString().includes(filterValue.toLowerCase());
+          || row.tblclass.className.toString().toLowerCase().includes(filterValue)
+          || row.emailAddress.toString().toLowerCase().includes(filterValue)
+          || row.admissionNumber.toString().toLowerCase().includes(filterValue);
       });
-      setFilteredTeachers(newData);
+      setFilteredStudents(newData);
     }
   }
 
@@ -129,6 +126,11 @@ const CreateClassTeacher = () => {
     {
       name: 'Email Address',
       selector: row => row.emailAddress,
+      sortable: true,
+    },
+    {
+      name: 'Admission No',
+      selector: row => row.admissionNumber,
       sortable: true,
     },
     {
@@ -162,8 +164,8 @@ const CreateClassTeacher = () => {
   ];
 
   const handleChange = (e) => {
-    setTeacherInfo({
-      ...teacherInfo,
+    setStudentInfo({
+      ...studentInfo,
       [e.target.name]: e.target.value
     });
   };
@@ -175,7 +177,7 @@ const CreateClassTeacher = () => {
         <div className="col-lg-12">
           <div className="card mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-              <h6 className="m-0 font-weight-bold text-primary">Create Class Teacher</h6>
+              <h6 className="m-0 font-weight-bold text-primary">Create Student</h6>
                 {statusMsg}
             </div>
             <div className="card-body">
@@ -187,7 +189,7 @@ const CreateClassTeacher = () => {
                       type="text"
                       className="form-control"
                       name="firstName"
-                      value={teacherInfo.firstName}
+                      value={studentInfo.firstName}
                       onChange={handleChange}
                       id="exampleInputFirstName"
                       placeholder="Your First Name"
@@ -200,7 +202,7 @@ const CreateClassTeacher = () => {
                       type="text"
                       className="form-control"
                       name="lastName"
-                      value={teacherInfo.lastName}
+                      value={studentInfo.lastName}
                       onChange={handleChange}
                       id="exampleInputLastName"
                       placeholder="Your Second Name"
@@ -213,10 +215,23 @@ const CreateClassTeacher = () => {
                       type="text"
                       className="form-control"
                       name="emailAddress"
-                      value={teacherInfo.emailAddress}
+                      value={studentInfo.emailAddress}
                       onChange={handleChange}
                       id="exampleInputEmailAddress"
                       placeholder="Your Email Address"
+                      required
+                    />
+                  </div>
+                  <div className="col-xl-6">
+                    <label className="form-control-label">Admission Number<span className="text-danger ml-2">*</span></label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="admissionNumber"
+                      value={studentInfo.admissionNumber}
+                      onChange={handleChange}
+                      id="exampleInputAdmissionNo"
+                      placeholder="Your Admission Number"
                       required
                     />
                   </div>
@@ -226,7 +241,7 @@ const CreateClassTeacher = () => {
                       type="text"
                       className="form-control"
                       name="phoneNo"
-                      value={teacherInfo.phoneNo}
+                      value={studentInfo.phoneNo}
                       onChange={handleChange}
                       id="exampleInputPhoneNo"
                       placeholder="Your Phone Number"
@@ -238,7 +253,7 @@ const CreateClassTeacher = () => {
                     <select
                       className="form-control"
                       name="classId"
-                      value={teacherInfo.classId}
+                      value={studentInfo.classId}
                       onChange={handleChange}
                       required
                     >
@@ -255,35 +270,19 @@ const CreateClassTeacher = () => {
                     <select
                       className="form-control"
                       name="classArmId"
-                      value={teacherInfo.classArmId}
+                      value={studentInfo.classArmId}
                       onChange={handleChange}
                       required
                     >
-                      <option value="">--Select Class Arm--</option>
-                      {classArms ? classArms.map((ArmItem, index) => (
-                        <option key={index} value={ArmItem.Id}>
-                          {ArmItem.classArmName}
-                        </option>
-                      )) : []}
+                        <option value="">--Select Class Arm--</option>
+                        {classArms ? classArms.map((ArmItem, index) => (
+                            <option key={index} value={ArmItem.Id}>
+                            {ArmItem.classArmName}
+                            </option>
+                        )) : []}
                     </select>
                   </div>
-                  <div className="col-xl-6">
-                    <label className="form-control-label">Select Arm<span className="text-danger ml-2">*</span></label>
-                    <select
-                      className="form-control"
-                      name="subjId"
-                      value={teacherInfo.subjId}
-                      onChange={handleChange}
-                      required
-                    >
-                      <option value="">--Select Subject--</option>
-                      {subjects ? subjects.map((SubjItem, index) => (
-                        <option key={index} value={SubjItem.id}>
-                          {SubjItem.subjName}
-                        </option>
-                      )) : []}
-                    </select>
-                  </div>
+                 
                 </div>
                 <button type="submit" className='btn btn-primary'>Save</button>
               </form>
@@ -294,7 +293,7 @@ const CreateClassTeacher = () => {
             <div className="col-lg-12">
               <div className="card mb-4">
                 <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 className="m-0 font-weight-bold text-primary">All Class Teachers</h6>
+                  <h6 className="m-0 font-weight-bold text-primary">All Students</h6>
                 </div>
                 <div className="table-responsive p-3">
                   <div className="form-group row mb-3">
@@ -310,9 +309,9 @@ const CreateClassTeacher = () => {
                   </div>
                   <DataTable
                     className=''
-                    title="All Class Teachers"
+                    title="All Students"
                     columns={columns}
-                    data={filteredTeachers}
+                    data={filteredStudents}
                     noHeader
                     pagination
                     defaultSortField="id"
@@ -330,4 +329,4 @@ const CreateClassTeacher = () => {
   );
 };
 
-export default CreateClassTeacher;
+export default CreateStudent;

@@ -51,19 +51,19 @@ export let adminConstant = {
           icon: 'fas fa-chalkboard',
           manageText: 'Manage Students',
           links: [
-            { href: 'createAnnouncement.php', text: 'Create Student' },
+            { href: '/Admin/createStudent', text: 'Create Student' },          
           ]
         },
       ]
     },
     {
-      title: 'Sessiion & Term',
+      title: 'Session & Term',
       items: [
         {
           icon: 'fas fa-chalkboard',
-          manageText: 'Manage Sessiion & Term',
+          manageText: 'Manage Session & Term',
           links: [
-            { href: 'createAnnouncement.php', text: 'Create Sessiion & Term' },
+            { href: 'createAnnouncement.php', text: 'Create Session & Term' },
           ]
         },
       ]

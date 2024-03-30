@@ -325,7 +325,7 @@ async function deleteClassTeacher(req, res) {
 async function getAllStudents(req, res) {
     try {
         const result = await models.tblstudents.findAll({
-            attributes: ['firstName', 'lastName', 'emailAddress', 'admissionNumber', 'phoneNo', 'createdAt'],
+            attributes: ['id', 'firstName', 'lastName', 'emailAddress', 'admissionNumber', 'phoneNo', 'createdAt'],
             include: [{
                 model: models.tblclass,
                 attributes: ['className'],
@@ -356,13 +356,13 @@ async function createStudent(req, res) {
         const existingStudent = await models.tblstudents.findOne({ where: { emailAddress } });
 
         if (existingStudent) {
-          res.send("<div className='alert alert-danger' style='margin-right:700px;'>This Student Already Exists!</div>");
+          res.status(409).send("<div className='alert alert-danger' style='margin-right:700px;'>This Student Already Exists!</div>");
         } else {
           await models.tblstudents.create({ firstName, lastName, admissionNumber, emailAddress, password: samplePassword, phoneNo, classId, classArmId });
-          res.send("<div className='alert alert-success'  style='margin-right:700px;'>Created Successfully!</div>");
+          res.status(201).send("Created Successfully!");
         }
       } catch (error) {
-        res.send(`<div className='alert alert-danger' style='margin-right:700px;'>An error Occurred! Error: ${error.message}</div>`);
+        res.status(500).send(`<div className='alert alert-danger' style='margin-right:700px;'>An error Occurred! Error: ${error.message}</div>`);
       }
 }
 

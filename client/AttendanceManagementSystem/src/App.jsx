@@ -12,6 +12,7 @@ import StudentDashboard from './Student/pages/Dashboard'
 import CreateClass from './Admin/pages/CreateClass'
 import CreateClassArm from './Admin/pages/createClassArm'
 import CreateClassTeacher from './Admin/pages/createClassTeacher'
+import CreateStudent from './Admin/pages/createStudent'
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
             <Route path='/Admin/createClass' element={<CreateClass />} />
             <Route path='/Admin/createClassArm' element={<CreateClassArm />} />
             <Route path='/Admin/createClassTeacher' element={<CreateClassTeacher />} />
+            <Route path='/Admin/createStudent' element={<CreateStudent />} />
           </Route>
           <Route path='ClassTeacher' element={ <ClassTeacher /> } >
             <Route path='/ClassTeacher/dashboard' element={ <TeacherDashboard /> }/>
