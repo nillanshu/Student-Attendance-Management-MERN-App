@@ -13,6 +13,7 @@ import CreateClass from './Admin/pages/CreateClass'
 import CreateClassArm from './Admin/pages/createClassArm'
 import CreateClassTeacher from './Admin/pages/createClassTeacher'
 import CreateStudent from './Admin/pages/createStudent'
+import CreateSessionTerm from './Admin/pages/createSessionTerm'
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
             <Route path='/Admin/createClassArm' element={<CreateClassArm />} />
             <Route path='/Admin/createClassTeacher' element={<CreateClassTeacher />} />
             <Route path='/Admin/createStudent' element={<CreateStudent />} />
+            <Route path='/Admin/createSessionTerm' element={<CreateSessionTerm />} />
           </Route>
           <Route path='ClassTeacher' element={ <ClassTeacher /> } >
             <Route path='/ClassTeacher/dashboard' element={ <TeacherDashboard /> }/>

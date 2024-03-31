@@ -63,7 +63,7 @@ export let adminConstant = {
           icon: 'fas fa-chalkboard',
           manageText: 'Manage Session & Term',
           links: [
-            { href: 'createAnnouncement.php', text: 'Create Session & Term' },
+            { href: '/Admin/createSessionTerm', text: 'Create Session & Term' },
           ]
         },
       ]
