@@ -12,6 +12,9 @@ import StudentDashboard from './Student/pages/Dashboard'
 import CreateClass from './Admin/pages/CreateClass'
 import CreateClassArm from './Admin/pages/createClassArm'
 import CreateClassTeacher from './Admin/pages/createClassTeacher'
+import CreateStudent from './Admin/pages/createStudent'
+import CreateSessionTerm from './Admin/pages/createSessionTerm'
+import ViewStudents from './ClassTeacher/pages/viewStudents'
 
 function App() {
 
@@ -25,9 +28,12 @@ function App() {
             <Route path='/Admin/createClass' element={<CreateClass />} />
             <Route path='/Admin/createClassArm' element={<CreateClassArm />} />
             <Route path='/Admin/createClassTeacher' element={<CreateClassTeacher />} />
+            <Route path='/Admin/createStudent' element={<CreateStudent />} />
+            <Route path='/Admin/createSessionTerm' element={<CreateSessionTerm />} />
           </Route>
           <Route path='ClassTeacher' element={ <ClassTeacher /> } >
             <Route path='/ClassTeacher/dashboard' element={ <TeacherDashboard /> }/>
+            <Route path='/ClassTeacher/viewStudents' element={ <ViewStudents /> }/>
           </Route>
           <Route path='Student' element={ <Student /> } >
             <Route path='/Student/dashboard' element={ <StudentDashboard /> }/>

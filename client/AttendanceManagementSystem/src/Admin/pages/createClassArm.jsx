@@ -46,6 +46,7 @@ const CreateClassArm = () => {
       }
 
       setClassArmName('');
+      setClassId('');
       setEditId(null);
 
       const data = await api.fetchClassArms();

@@ -325,7 +325,7 @@ async function deleteClassTeacher(req, res) {
 async function getAllStudents(req, res) {
     try {
         const result = await models.tblstudents.findAll({
-            attributes: ['firstName', 'lastName', 'emailAddress', 'admissionNumber', 'phoneNo', 'createdAt'],
+            attributes: ['id', 'firstName', 'lastName', 'emailAddress', 'admissionNumber', 'phoneNo', 'createdAt'],
             include: [{
                 model: models.tblclass,
                 attributes: ['className'],
@@ -356,13 +356,13 @@ async function createStudent(req, res) {
         const existingStudent = await models.tblstudents.findOne({ where: { emailAddress } });
 
         if (existingStudent) {
-          res.send("<div className='alert alert-danger' style='margin-right:700px;'>This Student Already Exists!</div>");
+          res.status(409).send("<div className='alert alert-danger' style='margin-right:700px;'>This Student Already Exists!</div>");
         } else {
           await models.tblstudents.create({ firstName, lastName, admissionNumber, emailAddress, password: samplePassword, phoneNo, classId, classArmId });
-          res.send("<div className='alert alert-success'  style='margin-right:700px;'>Created Successfully!</div>");
+          res.status(201).send("Created Successfully!");
         }
       } catch (error) {
-        res.send(`<div className='alert alert-danger' style='margin-right:700px;'>An error Occurred! Error: ${error.message}</div>`);
+        res.status(500).send(`<div className='alert alert-danger' style='margin-right:700px;'>An error Occurred! Error: ${error.message}</div>`);
       }
 }
 
@@ -403,7 +403,7 @@ async function deleteStudent(req, res) {
 async function getAllSessionTerms(req, res) {
     try {
         const result = await models.tblsessionterm.findAll({
-            attributes: ['sessionName', 'isActive', 'createdAt'],
+            attributes: ['id', 'sessionName', 'isActive', 'createdAt'],
             include: [{
                 model: models.tblterm,
                 attributes: ['termName'],
@@ -423,7 +423,7 @@ async function getAllSessionTerms(req, res) {
 async function getAllTerms(req, res) {
     try {
         const result = await models.tblterm.findAll({
-            attributes: ['termName']
+            attributes: ['id', 'termName']
         });
         if (result) {
             res.status(200).send(result);
@@ -436,51 +436,51 @@ async function getAllTerms(req, res) {
 }
 
 async function createSession(req, res) {
-    const { sessionName, termId } = req.body;
+    const { sessionName, termId, isActive } = req.body;
     try {
         const existingSession = await models.tblsessionterm.findOne({ where: { sessionName, termId } });
 
         if (existingSession) {
-          res.send("<div className='alert alert-danger' style='margin-right:700px;'>This Session & Term Already Exists!</div>");
+          res.status(409).send("<div className='alert alert-danger' style='margin-right:700px;'>This Session & Term Already Exists!</div>");
         } else {
-          await models.tblsessionterm.create({ sessionName, termId });
-          res.send("<div className='alert alert-success'  style='margin-right:700px;'>Created Successfully!</div>");
+          await models.tblsessionterm.create({ sessionName, termId, isActive });
+          res.status(201).send("Created Successfully!");
         }
       } catch (error) {
-        res.send(`<div className='alert alert-danger' style='margin-right:700px;'>An error Occurred! Error: ${error.message}</div>`);
+        res.status(500).send(`<div className='alert alert-danger' style='margin-right:700px;'>An error Occurred! Error: ${error.message}</div>`);
       }
 }
 
 async function editSession(req, res) {
     const id = req.params.id;
-    const { sessionName, termId } = req.body;
+    const { sessionName, termId, isActive } = req.body;
     try {
         const existingSession = await models.tblsessionterm.findOne({ where: { id } });
 
         if (!existingSession) {
-            res.send("<div className='alert alert-danger' style='margin-right:700px;'>This Session Does Not Exist!</div>");
+            res.status(404).send("This Session Does Not Exist!");
         } else {
-            await models.tblsessionterm.update({ sessionName, termId }, { where: { id } });
-            res.send("<div className='alert alert-success'  style='margin-right:700px;'>Updated Successfully!</div>");
+            await models.tblsessionterm.update({ sessionName, termId, isActive }, { where: { id } });
+            res.status(200).send("Updated Successfully!");
         }
     } catch (error) {
-        res.send(`<div className='alert alert-danger' style='margin-right:700px;'>An error Occurred! Error: ${error}</div>`);
+        res.status(500).send(`An error Occurred! Error: ${error}`);
     }
 }
 
 async function deleteSession(req, res) {
     const id = req.params.id;
     try {
-        const existingSession = await models.tblstudents.findOne({ where: { id } });
+        const existingSession = await models.tblsessionterm.findOne({ where: { id } });
 
         if (!existingSession) {
-            res.send("<div className='alert alert-danger' style='margin-right:700px;'>This Session Does Not Exist!</div>");
+            res.status(404).send("<div className='alert alert-danger' style='margin-right:700px;'>This Session Does Not Exist!</div>");
         } else {
             await models.tblsessionterm.destroy({ where: { id } });
-            res.send("<div className='alert alert-success'  style='margin-right:700px;'>Deleted Successfully!</div>");
+            res.status(200).send("<div className='alert alert-success'  style='margin-right:700px;'>Deleted Successfully!</div>");
         }
     } catch (error) {
-        res.send(`<div className='alert alert-danger' style='margin-right:700px;'>An error Occurred! Error: ${error.message}</div>`);
+        res.status(500).send(`<div className='alert alert-danger' style='margin-right:700px;'>An error Occurred! Error: ${error.message}</div>`);
     }
 }
 

@@ -13,6 +13,9 @@ import Dashboard from './pages/Dashboard';
 import CreateClass from './pages/CreateClass';
 import CreateClassArm from './pages/createClassArm';
 import CreateClassTeacher from './pages/createClassTeacher';
+import CreateStudent from './pages/createStudent';
+import CreateSessionTerm from './pages/createSessionTerm';
+
 
 const index = () => {
 
@@ -47,6 +50,8 @@ const index = () => {
                 <Route path='/Admin/createClass' element={<CreateClass />} />
                 <Route path='/Admin/createClassArm' element={<CreateClassArm />} />
                 <Route path='/Admin/createClassTeacher' element={<CreateClassTeacher />} />
+                <Route path='/Admin/createStudent' element={<CreateStudent />} />
+                <Route path='/Admin/createSessionTerm' element={<CreateSessionTerm />} />
               </Routes>
               <Outlet />
 
