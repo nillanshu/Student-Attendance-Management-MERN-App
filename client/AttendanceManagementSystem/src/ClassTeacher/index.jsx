@@ -13,6 +13,7 @@ import { teacherConstant } from '../constants'
 import { useNavigate } from 'react-router-dom'
 import teacherAuth from '../api/classTeacherApis/api.teacherAuth'
 import Dashboard from './pages/Dashboard'
+import ViewStudents from './pages/viewStudents'
 
 const index = () => {
 
@@ -44,6 +45,7 @@ const index = () => {
               {/* Container Fluid */}
               <Routes>
                 <Route path='/classTeacher/dashboard' element={<Dashboard />} />
+                <Route path='/classTeacher/viewStudents' element={<ViewStudents />} />
               </Routes>
               <Outlet />
 

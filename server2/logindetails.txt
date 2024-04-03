@@ -12,6 +12,6 @@
 
 {
     "userType": "ClassTeacher",
-    "emailAddress":"demo@mail.com",
-    "password":"demodemo"
+    "emailAddress":"test5@mail.com",
+    "password":"pass123"
 }

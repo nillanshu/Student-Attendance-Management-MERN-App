@@ -63,17 +63,32 @@ async function teacherAuth(req, res) {
 // manage students
 async function viewStudents(req, res) {
     try {
+        const result = {
+            students: null,
+            className: null,
+            classArmName: null
+        }
         const token = req.cookies.jwtoken;
         const decodedToken = jwt.verify(token, process.env.JWT_KEY);
         const id = decodedToken.userId;
         const teacher = await models.tblclassteacher.findAll({
             attributes: ["classId", "classArmId"],
-            where: { id }
+            where: { id },
+            include: [{
+                model: models.tblclass,
+                attributes: ['className'],
+                required: true
+            },
+            {
+                model: models.tblclassarms,
+                attributes: ['classArmName'],
+                required: true
+            }]
         })
-        const classId = teacher[0].dataValues.classId;
-        const classArmId = teacher[0].dataValues.classArmId;
-        const result = await models.tblstudents.findAll({
-            attributes: ['firstName', 'lastName', 'emailAddress', 'admissionNumber', 'phoneNo', 'createdAt'],
+        const classId = teacher[0].classId;
+        const classArmId = teacher[0].classArmId;
+        const students = await models.tblstudents.findAll({
+            attributes: ['id', 'firstName', 'lastName', 'emailAddress', 'admissionNumber', 'phoneNo', 'createdAt'],
             include: [{
                 model: models.tblclass,
                 attributes: ['className'],
@@ -86,13 +101,16 @@ async function viewStudents(req, res) {
             }],
             where: {classId, classArmId}
         });
+        result.students = students;
+        result.className = teacher[0].tblclass.className;
+        result.classArmName = teacher[0].tblclassarm.classArmName;
         if (result) {
             res.status(200).send(result);
         } else {
-            res.send("<div className='alert alert-danger' style='margin-right:700px;'>An error occurred while fetching students!</div>");
+            res.send("An error occurred while fetching students!");
         }
     } catch (error) {
-        res.status(500).send(`<div className='alert alert-danger' style='margin-right:700px;'>An error occurred! Error: ${error.message}</div>`);
+        res.status(500).send(`An error occurred! Error: ${error.message}`);
     }
 }
 
