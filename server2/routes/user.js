@@ -60,7 +60,8 @@ router.get('/classTeacher/viewStudents', checkAuth.CheckTeacherAuth, teacherCont
 router.post('/classTeacher/loadTakeAttendancePage', checkAuth.CheckTeacherAuth, teacherController.loadTakeAttendancePage);
 router.patch('/classTeacher/takeAttendance', checkAuth.CheckTeacherAuth, teacherController.takeAttendance);
 router.post('/classTeacher/viewClassAttendance', checkAuth.CheckTeacherAuth, teacherController.viewClassAttendance);
-router.get('/classTeacher/viewStudentAttendance', checkAuth.CheckTeacherAuth, teacherController.viewStudentAttendance);
+router.get('/classTeacher/getAllStudents', checkAuth.CheckTeacherAuth, teacherController.getAllStudents);
+router.post('/classTeacher/viewStudentAttendance', checkAuth.CheckTeacherAuth, teacherController.viewStudentAttendance);
 
 // class teacher routes end
 

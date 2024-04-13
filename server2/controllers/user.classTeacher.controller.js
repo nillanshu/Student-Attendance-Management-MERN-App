@@ -305,24 +305,24 @@ async function viewClassAttendance(req, res) {
     }
 }
 
-// BUG - not getting the student first name and last name from tblstudents
 async function viewStudentAttendance(req, res) {
     try {
         let result = null;
-        const {dateType, admissionNumber, dateTimeTaken, fromDate, toDate} = req.body;
-        if (dateType === 'all') {
-            const token = req.cookies.jwtoken;
-            const decodedToken = jwt.verify(token, process.env.JWT_KEY);
-            const id = decodedToken.userId;
-            const teacher = await models.tblclassteacher.findAll({
-                attributes: ["classId", "classArmId"],
-                where: { id }
-            })
-            const classId = teacher[0].dataValues.classId;
-            const classArmId = teacher[0].dataValues.classArmId;
-            console.log(classId, classArmId, admissionNumber);
+        const {dateType} = req.body;
+        const token = req.cookies.jwtoken;
+        const decodedToken = jwt.verify(token, process.env.JWT_KEY);
+        const id = decodedToken.userId;
+        const teacher = await models.tblclassteacher.findAll({
+            attributes: ["classId", "classArmId"],
+            where: { id }
+        })
+        const classId = teacher[0].dataValues.classId;
+        const classArmId = teacher[0].dataValues.classArmId;
+
+        if (dateType === 'All') {
+            const {admissionNumber} = req.body;
             result = await models.tblattendance.findAll({
-                attributes: ["admissionNumber", "status", "dateTimeTaken"],
+                attributes: ["id", "admissionNumber", "status", "dateTimeTaken"],
                 include: [
                     {
                         model: models.tblclass,
@@ -354,18 +354,10 @@ async function viewStudentAttendance(req, res) {
                 ],
                 where: {classId, classArmId, admissionNumber}
             });
-        } else if (dateType === 'bySingleDate') {
-            const token = req.cookies.jwtoken;
-            const decodedToken = jwt.verify(token, process.env.JWT_KEY);
-            const id = decodedToken.userId;
-            const teacher = await models.tblclassteacher.findAll({
-                attributes: ["classId", "classArmId"],
-                where: { id }
-            })
-            const classId = teacher[0].dataValues.classId;
-            const classArmId = teacher[0].dataValues.classArmId;
+        } else if (dateType === 'By Single Date') {
+            const {admissionNumber, dateTimeTaken} = req.body;
             result = await models.tblattendance.findAll({
-                attributes: ["admissionNumber", "status", "dateTimeTaken"],
+                attributes: ["id", "admissionNumber", "status", "dateTimeTaken"],
                 include: [
                     {
                         model: models.tblclass,
@@ -397,16 +389,8 @@ async function viewStudentAttendance(req, res) {
                 ],
                 where: {classId, classArmId, admissionNumber, dateTimeTaken}
             });
-        } else if (dateType === 'byDateRange') {
-            const token = req.cookies.jwtoken;
-            const decodedToken = jwt.verify(token, process.env.JWT_KEY);
-            const id = decodedToken.userId;
-            const teacher = await models.tblclassteacher.findAll({
-                attributes: ["classId", "classArmId"],
-                where: { id }
-            })
-            const classId = teacher[0].dataValues.classId;
-            const classArmId = teacher[0].dataValues.classArmId;
+        } else if (dateType === 'By Date Range') {
+            const {admissionNumber, fromDate, toDate} = req.body;
             result = await models.tblattendance.findAll({
                 attributes: ["admissionNumber", "status", "dateTimeTaken"],
                 include: [
@@ -451,14 +435,38 @@ async function viewStudentAttendance(req, res) {
         if (result) {
             res.status(200).send(result);
         } else {
-            res.send("<div className='alert alert-danger' style='margin-right:700px;'>An error occurred while fetching attendance!</div>");
+            res.status(400).send("An error occurred while fetching attendance!");
         }
     } catch (error) {
-        res.status(500).send(`<div className='alert alert-danger' style='margin-right:700px;'>An error occurred! Error: ${error.message}</div>`);
+        res.status(500).send(`An error occurred! Error: ${error.message}`);
     }
 }
 
+async function getAllStudents(req, res) {
+    try {
+        const token = req.cookies.jwtoken;
+        const decodedToken = jwt.verify(token, process.env.JWT_KEY);
+        const id = decodedToken.userId;
+        const teacher = await models.tblclassteacher.findAll({
+            attributes: ["classId", "classArmId"],
+            where: { id }
+        })
+        const classId = teacher[0].dataValues.classId;
+        const classArmId = teacher[0].dataValues.classArmId;
+        const result = await models.tblstudents.findAll({
+            attributes: ['admissionNumber', 'firstName', 'lastName'],
+            where: {classId, classArmId}
+        });
+        if (result) {
+            res.status(200).send(result);
+        } else {
+            res.send("An error occurred while fetching students!");
+        }
+    } catch (error) {
+        res.status(500).send(`An error occurred! Error: ${error.message}`);
+    }
 
+}
 
 
 module.exports = {
@@ -468,5 +476,6 @@ module.exports = {
     loadTakeAttendancePage,
     takeAttendance,
     viewClassAttendance,
+    getAllStudents,
     viewStudentAttendance
 }

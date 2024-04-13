@@ -11,7 +11,7 @@ const ViewClassAttn = () => {
 
   const location = {
     currentPage: 'View Class Attendance',
-    route: '/Admin/viewClassAttendance'
+    route: '/ClassTeacher/viewClassAttendance'
   };
 
   function handleSubmit(e) {

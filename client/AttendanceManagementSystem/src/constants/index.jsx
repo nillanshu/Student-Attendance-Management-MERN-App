@@ -98,7 +98,7 @@ export let teacherConstant = {
           links: [
             { href: 'takeAttendance.php', text: 'Take Attendance' },
             { href: '/classTeacher/viewClassAttendance', text: 'View Class Attendance' },
-            { href: 'viewStudentAttendance.php', text: 'View Student Attendance' },
+            { href: '/classTeacher/viewStudentAttendance', text: 'View Student Attendance' },
             { href: 'downloadRecord.php', text: "Today's Report (xls)" },
           ]
         },

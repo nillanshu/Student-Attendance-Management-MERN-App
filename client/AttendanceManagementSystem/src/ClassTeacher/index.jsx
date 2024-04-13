@@ -15,6 +15,7 @@ import teacherAuth from '../api/classTeacherApis/api.teacherAuth'
 import Dashboard from './pages/Dashboard'
 import ViewStudents from './pages/viewStudents'
 import ViewClassAttn from './pages/viewClassAttn'
+import ViewStudentAttn from './pages/viewStudentAttn'
 
 const index = () => {
 
@@ -48,6 +49,7 @@ const index = () => {
                 <Route path='/classTeacher/dashboard' element={<Dashboard />} />
                 <Route path='/classTeacher/viewStudents' element={<ViewStudents />} />
                 <Route path='/classTeacher/viewClassAttendance' element={<ViewClassAttn />} />
+                <Route path='/classTeacher/viewStudentAttendance' element={<ViewStudentAttn />} />
               </Routes>
               <Outlet />
 
