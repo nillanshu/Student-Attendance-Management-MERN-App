@@ -249,6 +249,7 @@ async function takeAttendance(req, res) {
 }
 
 // BUG - not getting the student first name and last name from tblstudents
+// gotta add subjId atrribute to tblattendance
 async function viewClassAttendance(req, res) {
     try {
         const dateTimeTaken = req.body.dateTimeTaken;
@@ -262,7 +263,7 @@ async function viewClassAttendance(req, res) {
         const classId = teacher[0].dataValues.classId;
         const classArmId = teacher[0].dataValues.classArmId;
         const result = await models.tblattendance.findAll({
-            attributes: ["admissionNumber", "status", "dateTimeTaken"],
+            attributes: ["id", "admissionNumber", "status", "dateTimeTaken"],
             include: [
                 {
                   model: models.tblclass,
@@ -297,10 +298,10 @@ async function viewClassAttendance(req, res) {
         if (result) {
             res.status(200).send(result);
         } else {
-            res.send("<div className='alert alert-danger' style='margin-right:700px;'>An error occurred while fetching attendance!</div>");
+            res.status(400).send("An error occurred while fetching attendance!");
         }
     } catch (error) {
-        res.status(500).send(`<div className='alert alert-danger' style='margin-right:700px;'>An error occurred! Error: ${error.message}</div>`);
+        res.status(500).send(`An error occurred! Error: ${error.message}`);
     }
 }
 
