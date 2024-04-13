@@ -97,7 +97,7 @@ export let teacherConstant = {
           manageText: 'Manage Attendance',
           links: [
             { href: 'takeAttendance.php', text: 'Take Attendance' },
-            { href: 'viewAttendance.php', text: 'View Class Attendance' },
+            { href: '/classTeacher/viewClassAttendance', text: 'View Class Attendance' },
             { href: 'viewStudentAttendance.php', text: 'View Student Attendance' },
             { href: 'downloadRecord.php', text: "Today's Report (xls)" },
           ]
@@ -120,7 +120,7 @@ export let teacherConstant = {
   ],
   link: {
     title: 'Dashboard',
-    href: '/Teacher/dashboard'
+    href: '/classTeacher/dashboard'
   }
 }
 

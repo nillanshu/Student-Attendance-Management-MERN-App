@@ -2,8 +2,6 @@ import React, { useState, useEffect} from 'react';
 import DataTable from 'react-data-table-component';
 import Location from '../../components/Location';
 import * as api from '../../api/classTeacherApis/api.viewStudents';
-// import { fetchClassArmsByClass } from '../../api/adminApis/api.classTeachers';
-// import {fetchClasses} from '../../api/adminApis/api.Classes';
 
 const ViewStudents = () => {
   const [students, setStudents] = useState([]);
@@ -19,7 +17,6 @@ const ViewStudents = () => {
   useEffect(() => {
     api.fetchStudents()
     .then(data => {
-        console.log(data);
       setStudents(data.students);
       setFilteredStudents(data.students);
       setClassName(data.className);

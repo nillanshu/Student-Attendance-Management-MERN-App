@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom'
 import teacherAuth from '../api/classTeacherApis/api.teacherAuth'
 import Dashboard from './pages/Dashboard'
 import ViewStudents from './pages/viewStudents'
+import ViewClassAttn from './pages/viewClassAttn'
 
 const index = () => {
 
@@ -46,6 +47,7 @@ const index = () => {
               <Routes>
                 <Route path='/classTeacher/dashboard' element={<Dashboard />} />
                 <Route path='/classTeacher/viewStudents' element={<ViewStudents />} />
+                <Route path='/classTeacher/viewClassAttendance' element={<ViewClassAttn />} />
               </Routes>
               <Outlet />
 
