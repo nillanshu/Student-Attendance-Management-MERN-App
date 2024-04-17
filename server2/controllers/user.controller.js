@@ -197,8 +197,22 @@ function login(req, res){
     }
 }
 
+function logout(req, res) {
+    try {
+        res.clearCookie("jwtoken");
+        res.status(200).json({
+            message: "Logged out successfully",
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "An error occurred while logging out",
+            error: error.toString()
+        });
+    }
+}
 
 module.exports = {
     signUp,
-    login
+    login,
+    logout
 }
