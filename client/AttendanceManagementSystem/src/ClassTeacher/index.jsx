@@ -16,6 +16,7 @@ import Dashboard from './pages/Dashboard'
 import ViewStudents from './pages/viewStudents'
 import ViewClassAttn from './pages/viewClassAttn'
 import ViewStudentAttn from './pages/viewStudentAttn'
+import TakeAttendance from './pages/takeAttendance'
 
 const index = () => {
 
@@ -50,6 +51,7 @@ const index = () => {
                 <Route path='/classTeacher/viewStudents' element={<ViewStudents />} />
                 <Route path='/classTeacher/viewClassAttendance' element={<ViewClassAttn />} />
                 <Route path='/classTeacher/viewStudentAttendance' element={<ViewStudentAttn />} />
+                <Route path='/classTeacher/takeAttendance' element={<TakeAttendance />} />
               </Routes>
               <Outlet />
 

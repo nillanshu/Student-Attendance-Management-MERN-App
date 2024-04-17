@@ -17,6 +17,7 @@ import CreateSessionTerm from './Admin/pages/createSessionTerm'
 import ViewStudents from './ClassTeacher/pages/viewStudents'
 import ViewClassAttn from './ClassTeacher/pages/viewClassAttn'
 import ViewStudentAttn from './ClassTeacher/pages/viewStudentAttn'
+import TakeAttendance from './ClassTeacher/pages/takeAttendance'
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
             <Route path='/ClassTeacher/viewStudents' element={ <ViewStudents /> }/>
             <Route path='/ClassTeacher/viewClassAttendance' element={ <ViewClassAttn /> }/>
             <Route path='/ClassTeacher/viewStudentAttendance' element={ <ViewStudentAttn /> }/>
+            <Route path='/ClassTeacher/takeAttendance' element={ <TakeAttendance /> }/>
           </Route>
           <Route path='Student' element={ <Student /> } >
             <Route path='/Student/dashboard' element={ <StudentDashboard /> }/>

@@ -96,7 +96,7 @@ export let teacherConstant = {
           icon: 'fas fa-chalkboard',
           manageText: 'Manage Attendance',
           links: [
-            { href: 'takeAttendance.php', text: 'Take Attendance' },
+            { href: '/classTeacher/takeAttendance', text: 'Take Attendance' },
             { href: '/classTeacher/viewClassAttendance', text: 'View Class Attendance' },
             { href: '/classTeacher/viewStudentAttendance', text: 'View Student Attendance' },
             { href: 'downloadRecord.php', text: "Today's Report (xls)" },
