@@ -46,3 +46,35 @@ export async function fetchStudentAttendance(studentAttnInfo) {
     }
     return res;
 }
+
+export async function loadTakeAttendancePage() {
+    const res = await axios.post('/user/classTeacher/loadTakeAttendancePage', {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+    if(res.status !== 200) {
+        const error = new Error(res.error);
+        throw error;
+    }
+    const data = res.data;
+    return data;
+}
+
+export async function takeAttendance(check) {
+    const res = await axios.patch('/user/classTeacher/takeAttendance', 
+        { 
+            check: check,
+        },
+        {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+    );
+    if(res.status !== 200) {
+        const error = new Error(res.error);
+        throw error;
+    }
+    return res;
+}

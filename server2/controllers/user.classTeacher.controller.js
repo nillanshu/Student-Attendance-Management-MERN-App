@@ -118,17 +118,34 @@ async function viewStudents(req, res) {
 
 async function loadTakeAttendancePage(req, res) {
     try {
+        const result = {
+            students: null,
+            className: null,
+            classArmName: null
+        };
         const token = req.cookies.jwtoken;
         const decodedToken = jwt.verify(token, process.env.JWT_KEY);
         const id = decodedToken.userId;
         const teacher = await models.tblclassteacher.findAll({
             attributes: ["classId", "classArmId"],
-            where: { id }
+            where: { id },
+            include: [{
+                model: models.tblclass,
+                attributes: ['className'],
+                required: true
+            },
+            {
+                model: models.tblclassarms,
+                attributes: ['classArmName'],
+                required: true
+            }]
         })
+        result.className = teacher[0].tblclass.className;
+        result.classArmName = teacher[0].tblclassarm.classArmName;
         const classId = teacher[0].dataValues.classId;
         const classArmId = teacher[0].dataValues.classArmId;
-        const result = await models.tblstudents.findAll({
-            attributes: ['firstName', 'lastName', 'admissionNumber'],
+        result.students = await models.tblstudents.findAll({
+            attributes: ['id', 'firstName', 'lastName', 'admissionNumber'],
             include: [{
                 model: models.tblclass,
                 attributes: ['className'],
@@ -149,7 +166,6 @@ async function loadTakeAttendancePage(req, res) {
         if (!sessionTerm) {
             throw new Error("No active session term found");
         }
-        console.log(sessionTerm.dataValues.id);
         const sessionTermId = sessionTerm.dataValues.id;
 
         // Check if attendance record exists
@@ -165,6 +181,7 @@ async function loadTakeAttendancePage(req, res) {
         // If no attendance record exists, create new records
         if (attendanceCount === 0) {
             let students = await models.tblstudents.findAll({
+                attributes: ['admissionNumber', 'classId', 'classArmId'],
                 where: {
                     classId: classId,
                     classArmId: classArmId
@@ -174,9 +191,9 @@ async function loadTakeAttendancePage(req, res) {
             // Use Promise.all to perform all the create operations concurrently
             await Promise.all(students.map(student =>
                 models.tblattendance.create({
-                    admissionNo: student.admissionNumber,
-                    classId: classId,
-                    classArmId: classArmId,
+                    admissionNumber: student.admissionNumber,
+                    classId: student.classId,
+                    classArmId: student.classArmId,
                     sessionTermId: sessionTermId,
                     status: '0',
                     dateTimeTaken: dateTaken
@@ -193,7 +210,6 @@ async function loadTakeAttendancePage(req, res) {
         res.status(500).send(`<div className='alert alert-danger' style='margin-right:700px;'>An error occurred! Error: ${error.message}</div>`);
     }
 }
-
 
 async function takeAttendance(req, res) {
     try {
@@ -225,22 +241,20 @@ async function takeAttendance(req, res) {
         });
 
         if (attendance) {
-            return res.status(400).send("Attendance has already been taken for today");
+            return res.status(400).json({ message: "Attendance has already been taken for today" });
         }
 
-        for (let i = 0; i < check.length; i++) {
-            if (check[i]) {
-                const updatedAttendance = await models.tblattendance.update({ status: '1' }, {
+        let updatePromises = check.map((admissionNo) => {
+            if (admissionNo) {
+                return models.tblattendance.update({ status: '1' }, {
                     where: {
-                        admissionNo: check[i]
+                        admissionNumber: admissionNo
                     }
                 });
-
-                if (!updatedAttendance) {
-                    return res.status(500).send("An error occurred while updating attendance");
-                }
             }
-        }
+        });
+
+        await Promise.all(updatePromises);
 
         return res.status(200).send("Attendance taken successfully");
     } catch (error) {
