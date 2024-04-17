@@ -9,6 +9,7 @@ const router = express.Router();
 
 router.post('/sign-up', userController.signUp);
 router.post('/login', userController.login);
+router.get('/logout', userController.logout);
 
 
 // admin routes start

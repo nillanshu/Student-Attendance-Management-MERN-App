@@ -1,7 +1,19 @@
 import React from 'react'
 import userIcon from '../img/user-icn.png'
+import logoutApi from '../api/api.logout'
+import { useNavigate } from 'react-router-dom'
 
 const Topbar = ({user}) => {
+
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    logoutApi().then((message) => {
+      if (message === 'Logged out successfully') {
+        navigate('/login');
+      }
+    });
+  }
 
   return (
     <>
@@ -55,7 +67,7 @@ const Topbar = ({user}) => {
               </a>
               */}
               <div className="dropdown-divider"></div>
-              <a className="dropdown-item" href="">
+              <a className="dropdown-item" onClick={handleLogout}>
                 <i className="fas fa-power-off fa-fw mr-2 text-danger"></i>
                 Logout
               </a>
