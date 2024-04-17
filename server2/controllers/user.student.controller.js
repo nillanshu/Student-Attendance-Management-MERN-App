@@ -62,156 +62,70 @@ async function studentAuth(req, res) {
 
 async function viewAttendance(req, res) {
     try {
-        let result = null;
-        const {dateType, dateTimeTaken, fromDate, toDate} = req.body;
-        if (dateType === 'all') {
-            const token = req.cookies.jwtoken;
-            console.log(req);
-            const decodedToken = jwt.verify(token, process.env.JWT_KEY);
-            const id = decodedToken.userId;
-            const student = await models.tblstudents.findAll({
-                attributes: ["classId", "classArmId", "admissionNumber"],
-                where: { id }
-            })
-            const classId = student[0].dataValues.classId;
-            const classArmId = student[0].dataValues.classArmId;
-            const admissionNumber = student[0].dataValues.admissionNumber;
-            result = await models.tblattendance.findAll({
-                attributes: ["admissionNumber", "status", "dateTimeTaken"],
-                include: [
-                    {
-                        model: models.tblclass,
-                        attributes: ['className'],
-                        required: true
-                    },
-                    {
-                        model: models.tblclassarms,
-                        attributes: ['classArmName'],
-                        required: true
-                    },
-                    {
-                        model: models.tblsessionterm,
-                        attributes: ['sessionName'],
-                        required: true,
-                        include: [
-                            {
-                                model: models.tblterm,
-                                attributes: ['termName'],
-                                required: true
-                            }
-                        ]
-                    },
-                    {
-                        model: models.tblstudents,
-                        attributes: ['admissionNumber', 'firstName', 'lastName'],
-                        required: false
-                    }
-                ],
-                where: {classId, classArmId, admissionNumber}
-            });
-        } else if (dateType === 'bySingleDate') {
-            const token = req.cookies.jwtoken;
-            const decodedToken = jwt.verify(token, process.env.JWT_KEY);
-            const id = decodedToken.userId;
-            const student = await models.tblstudents.findAll({
-                attributes: ["classId", "classArmId", "admissionNumber"],
-                where: { id }
-            })
-            const classId = student[0].dataValues.classId;
-            const classArmId = student[0].dataValues.classArmId;
-            const admissionNumber = student[0].dataValues.admissionNumber;
-            result = await models.tblattendance.findAll({
-                attributes: ["admissionNumber", "status", "dateTimeTaken"],
-                include: [
-                    {
-                        model: models.tblclass,
-                        attributes: ['className'],
-                        required: true
-                    },
-                    {
-                        model: models.tblclassarms,
-                        attributes: ['classArmName'],
-                        required: true
-                    },
-                    {
-                        model: models.tblsessionterm,
-                        attributes: ['sessionName'],
-                        required: true,
-                        include: [
-                            {
-                                model: models.tblterm,
-                                attributes: ['termName'],
-                                required: true
-                            }
-                        ]
-                    },
-                    {
-                        model: models.tblstudents,
-                        attributes: ['admissionNumber', 'firstName', 'lastName'],
-                        required: false
-                    }
-                ],
-                where: {classId, classArmId, admissionNumber, dateTimeTaken}
-            });
-        } else if (dateType === 'byDateRange') {
-            const token = req.cookies.jwtoken;
-            const decodedToken = jwt.verify(token, process.env.JWT_KEY);
-            const id = decodedToken.userId;
-            const student = await models.tblstudents.findAll({
-                attributes: ["classId", "classArmId", "admissionNumber"],
-                where: { id }
-            })
-            const classId = student[0].dataValues.classId;
-            const classArmId = student[0].dataValues.classArmId;
-            const admissionNumber = student[0].dataValues.admissionNumber;
-            result = await models.tblattendance.findAll({
-                attributes: ["admissionNumber", "status", "dateTimeTaken"],
-                include: [
-                    {
-                        model: models.tblclass,
-                        attributes: ['className'],
-                        required: true
-                    },
-                    {
-                        model: models.tblclassarms,
-                        attributes: ['classArmName'],
-                        required: true
-                    },
-                    {
-                        model: models.tblsessionterm,
-                        attributes: ['sessionName'],
-                        required: true,
-                        include: [
-                            {
+        const token = req.cookies.jwtoken;
+        if (!token) {
+            return res.status(401).json({ message: "No token provided" });
+        }
+
+        const decodedToken = jwt.verify(token, process.env.JWT_KEY);
+        const id = decodedToken.userId;
+
+        const student = await models.tblstudents.findOne({
+            attributes: ["classId", "classArmId", "admissionNumber"],
+            where: { id }
+        })
+
+        if (!student) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+
+        const { classId, classArmId, admissionNumber } = student.dataValues;
+        const { dateType, dateTimeTaken, fromDate, toDate } = req.query;
+
+        let whereClause = { classId, classArmId, admissionNumber };
+
+        if (dateType === 'By Single Date') {
+            whereClause.dateTimeTaken = dateTimeTaken;
+        } else if (dateType === 'By Date Range') {
+            whereClause.dateTimeTaken = { [Op.between]: [fromDate, toDate] };
+        }
+
+        const result = await models.tblattendance.findAll({
+            attributes: ["id", "admissionNumber", "status", "dateTimeTaken"],
+            include: [
+                {
+                    model: models.tblclass,
+                    attributes: ['className'],
+                    required: true
+                },
+                {
+                    model: models.tblclassarms,
+                    attributes: ['classArmName'],
+                    required: true
+                },
+                {
+                    model: models.tblsessionterm,
+                    attributes: ['sessionName'],
+                    required: true,
+                    include: [
+                        {
                             model: models.tblterm,
                             attributes: ['termName'],
                             required: true
-                            }
-                        ]
-                    },
-                    {
-                        model: models.tblstudents,
-                        attributes: ['admissionNumber', 'firstName', 'lastName'],
-                        required: false
-                    }
-                ],
-                where: {
-                    classId,
-                    classArmId,
-                    admissionNumber,
-                    dateTimeTaken: {
-                        [Op.between]: [fromDate, toDate]
-                    }
+                        }
+                    ]
                 }
-            });
-        }
+            ],
+            where: whereClause
+        });
+
         if (result) {
             res.status(200).send(result);
         } else {
-            res.send("<div className='alert alert-danger' style='margin-right:700px;'>An error occurred while fetching attendance!</div>");
+            res.status(500).json({ message: "An error occurred while fetching attendance!" });
         }
     } catch (error) {
-        res.status(500).send(`<div className='alert alert-danger' style='margin-right:700px;'>An error occurred! Error: ${error.message}</div>`);
+        res.status(500).json({ message: `An error occurred! Error: ${error.message}` });
     }
 }
 
