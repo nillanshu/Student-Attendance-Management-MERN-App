@@ -18,6 +18,7 @@ import ViewStudents from './ClassTeacher/pages/viewStudents'
 import ViewClassAttn from './ClassTeacher/pages/viewClassAttn'
 import ViewStudentAttn from './ClassTeacher/pages/viewStudentAttn'
 import TakeAttendance from './ClassTeacher/pages/takeAttendance'
+import ViewAttendance from './Student/pages/viewAttendance'
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
           </Route>
           <Route path='Student' element={ <Student /> } >
             <Route path='/Student/dashboard' element={ <StudentDashboard /> }/>
+            <Route path='/Student/viewAttendance' element={ <ViewAttendance /> }/>
           </Route>
           <Route path='*' element={ <ErrorPage /> } />
         </Routes>

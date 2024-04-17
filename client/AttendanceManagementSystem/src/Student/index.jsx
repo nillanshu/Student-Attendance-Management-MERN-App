@@ -12,6 +12,7 @@ import '../css/ruang-admin.min.css'
 import { studentConstant } from '../constants'
 import studentAuth from '../api/studentApis/api.studentAuth'
 import Dashboard from './pages/Dashboard'
+import ViewAttendance from './pages/viewAttendance'
 
 const index = () => {
 
@@ -43,6 +44,7 @@ const index = () => {
               {/* Container Fluid */}
               <Routes>
                 <Route path='/Student/dashboard' element={<Dashboard />} />
+                <Route path='/Student/viewAttendance' element={<ViewAttendance />} />
               </Routes>
               <Outlet />
 

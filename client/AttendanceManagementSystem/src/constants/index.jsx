@@ -152,8 +152,7 @@ export let studentConstant = {
           icon: 'fas fa-chalkboard',
           manageText: 'Check Attendance',
           links: [
-            { href: 'viewAttendance.php', text: 'View Attendance' },
-            { href: 'requestAttendance.php', text: 'Request Attendance' },
+            { href: '/Student/viewAttendance', text: 'View Attendance' },
           ]
         },
       ]
