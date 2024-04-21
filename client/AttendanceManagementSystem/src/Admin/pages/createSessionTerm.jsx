@@ -1,9 +1,8 @@
 import React, { useState, useEffect} from 'react';
 import DataTable from 'react-data-table-component';
 import Location from '../../components/Location';
+import CustomPagination from '../../components/CustomPagination';
 import * as api from '../../api/adminApis/api.sessionTerm';
-// import { fetchClassArmsByClass } from '../../api/adminApis/api.classTeachers';
-// import {fetchClasses} from '../../api/adminApis/api.Classes';
 
 const CreateSessionTerm = () => {
   const [sessions, setSessions] = useState([]);
@@ -75,6 +74,12 @@ const CreateSessionTerm = () => {
       const data = await api.fetchSessions();
       setSessions(data);
       setFilteredSessions(data);
+      setEditId(null);
+      setSessionInfo({
+        sessionName: '',
+        termId: '',
+        isActive: '',
+      });
     } catch (error) {
       console.error('Error:', error);
       setStatusMsg('Error occurred while deleting the Session');
@@ -115,11 +120,13 @@ const CreateSessionTerm = () => {
       name: 'Session Name',
       selector: row => row.sessionName,
       sortable: true,
+      cell: row => <div className='cell' title={row.sessionName}>{row.sessionName}</div>
     },
     {
       name: 'Term Name',
       selector: row => row.tblterm.termName,
       sortable: true,
+      cell: row => <div className='cell' title={row.tblterm.termName}>{row.tblterm.termName}</div>
     },
     {
       name: 'Status',
@@ -133,7 +140,7 @@ const CreateSessionTerm = () => {
         <i
           key={row.title}
           onClick={() => handleEdit(row.id)}
-          className="first fas fa-pen"
+          className="first fas fa-pen clickable"
         ></i>,
       ]
     },
@@ -145,7 +152,7 @@ const CreateSessionTerm = () => {
         <i
           key={row.title}
           onClick={() => handleDelete(row.id)}
-          className="first fas fa-trash-alt"
+          className="first fas fa-trash-alt clickable"
         ></i>,
       ]
     },
@@ -244,7 +251,7 @@ const CreateSessionTerm = () => {
                     </div>
                   </div>
                   <DataTable
-                    className=''
+                    className='my-table'
                     title="All Students"
                     columns={columns}
                     data={filteredSessions}
@@ -254,6 +261,7 @@ const CreateSessionTerm = () => {
                     defaultSortAsc={true}
                     highlightOnHover
                     fixedHeader
+                    paginationComponent={CustomPagination}
                   ></DataTable>
                 </div>
               </div>
