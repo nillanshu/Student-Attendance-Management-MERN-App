@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import DataTable from 'react-data-table-component';
 import Location from '../../components/Location';
+import CustomPagination from '../../components/CustomPagination';
 import * as api from '../../api/adminApis/api.Classes';
 
 const CreateClass = () => {
@@ -92,6 +93,7 @@ const CreateClass = () => {
       name: 'Class Name',
       selector: row => row.className,
       sortable: true,
+      cell: row => <div className='cell' title={row.className}>{row.className}</div>
     },
     {
       name: "Edit",
@@ -101,9 +103,8 @@ const CreateClass = () => {
         <i
           key={row.title}
           onClick={() => handleEdit(row.id)}
-          className="first fas fa-pen"
-        ></i>,
-        <p>Edit</p>
+          className="first fas fa-pen clickable"
+        ></i>
       ]
     },
     {
@@ -114,9 +115,8 @@ const CreateClass = () => {
         <i
           key={row.title}
           onClick={() => handleDelete(row.id)}
-          className="first fas fa-trash-alt"
-        ></i>,
-        <p>Delete</p>
+          className="first fas fa-trash-alt clickable"
+        ></i>
       ]
     },
   ];
@@ -172,7 +172,7 @@ const CreateClass = () => {
                     </div>
                   </div>
                   <DataTable
-                    className=''
+                    className='my-table'
                     title="All Classes"
                     columns={columns}
                     data={filteredClasses}
@@ -182,6 +182,7 @@ const CreateClass = () => {
                     defaultSortAsc={true}
                     highlightOnHover
                     fixedHeader
+                    paginationComponent={CustomPagination}
                   ></DataTable>
                 </div>
               </div>

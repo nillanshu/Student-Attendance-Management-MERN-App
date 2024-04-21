@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import DataTable from 'react-data-table-component';
 import Location from '../../components/Location';
+import CustomPagination from '../../components/CustomPagination';
 import * as api from '../../api/studentApis/api.attendance'
 
 const ViewAttendance = () => {
@@ -67,6 +68,7 @@ const ViewAttendance = () => {
       name: 'Admission No',
       selector: row => row.admissionNumber,
       sortable: true,
+      cell: row => <div className='cell' title={row.admissionNumber}>{row.admissionNumber}</div>
     },
     {
       name: 'Status',
@@ -77,26 +79,31 @@ const ViewAttendance = () => {
       name: 'Date',
       selector: row => row.dateTimeTaken,
       sortable: false,
+      cell: row => <div className='cell' title={row.dateTimeTaken}>{row.dateTimeTaken}</div>
     },
     {
       name: 'Class',
       selector: row => row.tblclass.className,
       sortable: false,
+      cell: row => <div className='cell' title={row.tblclass.className}>{row.tblclass.className}</div>
     },
     {
       name: 'Class Arm',
       selector: row => row.tblclassarm.classArmName,
       sortable: false,
+      cell: row => <div className='cell' title={row.tblclassarm.classArmName}>{row.tblclassarm.classArmName}</div>
     },
     {
       name: 'Session',
       selector: row => row.tblsessionterm.sessionName,
       sortable: false,
+      cell: row => <div className='cell' title={row.tblsessionterm.sessionName}>{row.tblsessionterm.sessionName}</div>
     },
     {
       name: 'Term',
       selector: row => row.tblsessionterm.tblterm.termName,
       sortable: false,
+      cell: row => <div className='cell' title={row.tblsessionterm.tblterm.termName}>{row.tblsessionterm.tblterm.termName}</div>
     }
   ];
 
@@ -195,7 +202,7 @@ const ViewAttendance = () => {
                     </div>
                   </div>
                   <DataTable
-                    className=''
+                    className='my-table'
                     title="Attendance List"
                     columns={columns}
                     data={filteredAttendance}
@@ -205,6 +212,7 @@ const ViewAttendance = () => {
                     defaultSortAsc={true}
                     highlightOnHover
                     fixedHeader
+                    paginationComponent={CustomPagination}
                   ></DataTable>
                 </div>
               </div>

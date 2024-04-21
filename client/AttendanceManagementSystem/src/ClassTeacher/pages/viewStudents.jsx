@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import DataTable from 'react-data-table-component';
 import Location from '../../components/Location';
+import CustomPagination from '../../components/CustomPagination';
 import * as api from '../../api/classTeacherApis/api.viewStudents';
 
 const ViewStudents = () => {
@@ -55,36 +56,43 @@ const ViewStudents = () => {
       name: 'First Name',
       selector: row => row.firstName,
       sortable: true,
+      cell: row => <div className='cell' title={row.firstName}>{row.firstName}</div>
     },
     {
       name: 'Last Name',
       selector: row => row.lastName,
       sortable: true,
+      cell: row => <div className='cell' title={row.lastName}>{row.lastName}</div>
     },
     {
       name: 'Email Address',
       selector: row => row.emailAddress,
       sortable: true,
+      cell: row => <div className='cell' title={row.emailAddress}>{row.emailAddress}</div>
     },
     {
       name: 'Admission No',
       selector: row => row.admissionNumber,
       sortable: true,
+      cell: row => <div className='cell' title={row.admissionNumber}>{row.admissionNumber}</div>
     },
     {
       name: 'Phone No',
       selector: row => row.phoneNo,
       sortable: false,
+      cell: row => <div className='cell' title={row.phoneNo}>{row.phoneNo}</div>
     },
     {
       name: 'Class',
       selector: row => row.tblclass.className,
       sortable: false,
+      cell: row => <div className='cell' title={row.tblclass.className}>{row.tblclass.className}</div>
     },
     {
       name: 'Class Arm',
       selector: row => row.tblclassarm.classArmName,
       sortable: false,
+      cell: row => <div className='cell' title={row.tblclassarm.classArmName}>{row.tblclassarm.classArmName}</div>
     }
   ];
 
@@ -112,7 +120,7 @@ const ViewStudents = () => {
                     </div>
                   </div>
                   <DataTable
-                    className=''
+                    className='my-table'
                     title="All Students"
                     columns={columns}
                     data={filteredStudents}
@@ -122,6 +130,7 @@ const ViewStudents = () => {
                     defaultSortAsc={true}
                     highlightOnHover
                     fixedHeader
+                    paginationComponent={CustomPagination}
                   ></DataTable>
                 </div>
               </div>

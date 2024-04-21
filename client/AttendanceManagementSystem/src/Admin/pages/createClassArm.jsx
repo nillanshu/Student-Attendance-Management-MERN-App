@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import DataTable from 'react-data-table-component';
 import Location from '../../components/Location';
+import CustomPagination from '../../components/CustomPagination';
 import * as api from '../../api/adminApis/api.classArms';
 import {fetchClasses} from '../../api/adminApis/api.Classes';
 
@@ -73,6 +74,9 @@ const CreateClassArm = () => {
       const data = await api.fetchClassArms();
       setClassArms(data);
       setFilteredClassArms(data);
+      setClassArmName('');
+      setClassId('');
+      setEditId(null);
     } catch (error) {
       console.error('Error:', error);
       setStatusMsg('Error occurred while deleting the class');
@@ -104,11 +108,13 @@ const CreateClassArm = () => {
       name: 'Class Name',
       selector: row => row.tblclass.className,
       sortable: true,
+      cell: (row) => <div className='cell' title={row.tblclass.className}>{row.tblclass.className}</div>
     },
     {
       name: 'Class Arm Name',
       selector: row => row.classArmName,
       sortable: true,
+      cell: (row) => <div className='cell' title={row.classArmName}>{row.classArmName}</div>
     },
     {
       name: 'Status',
@@ -123,9 +129,8 @@ const CreateClassArm = () => {
         <i
           key={row.title}
           onClick={() => handleEdit(row.Id)}
-          className="first fas fa-pen"
-        ></i>,
-        <p>Edit</p>
+          className="first fas fa-pen clickable"
+        ></i>
       ]
     },
     {
@@ -136,9 +141,8 @@ const CreateClassArm = () => {
         <i
           key={row.title}
           onClick={() => handleDelete(row.Id)}
-          className="first fas fa-trash-alt"
-        ></i>,
-        <p>Delete</p>
+          className="first fas fa-trash-alt clickable"
+        ></i>
       ]
     },
   ];
@@ -211,7 +215,7 @@ const CreateClassArm = () => {
                     </div>
                   </div>
                   <DataTable
-                    className=''
+                    className='my-table'
                     title="All ClassArms"
                     columns={columns}
                     data={filteredClassArms}
@@ -221,6 +225,7 @@ const CreateClassArm = () => {
                     defaultSortAsc={true}
                     highlightOnHover
                     fixedHeader
+                    paginationComponent={CustomPagination}
                   ></DataTable>
                 </div>
               </div>

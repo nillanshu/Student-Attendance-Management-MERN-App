@@ -1,18 +1,18 @@
 export let adminConstant = {
   sections: [
-    {
-      title: 'Announcements',
-      items: [
-        {
-          icon: 'fas fa-chalkboard',
-          manageText: 'Manage Announcements',
-          links: [
-            { href: 'viewAnnouncements.php', text: 'View Announcements' },
-            { href: 'createAnnouncement.php', text: 'Create Announcement' },
-          ]
-        },
-      ]
-    },
+    // {
+    //   title: 'Announcements',
+    //   items: [
+    //     {
+    //       icon: 'fas fa-chalkboard',
+    //       manageText: 'Manage Announcements',
+    //       links: [
+    //         { href: 'viewAnnouncements.php', text: 'View Announcements' },
+    //         { href: 'createAnnouncement.php', text: 'Create Announcement' },
+    //       ]
+    //     },
+    //   ]
+    // },
     {
       title: 'Class and Class Arms',
       items: [
@@ -104,19 +104,19 @@ export let teacherConstant = {
         },
       ]
     },
-    {
-      title: 'Requests',
-      items: [
-        {
-          icon: 'fas fa-chalkboard',
-          manageText: 'Manage Requests',
-          links: [
-            { href: 'createStudennt.php', text: 'Attendance Requests' },
-            { href: 'createStudennt.php', text: 'Doc Update Requests' },
-          ]
-        },
-      ]
-    },
+    // {
+    //   title: 'Requests',
+    //   items: [
+    //     {
+    //       icon: 'fas fa-chalkboard',
+    //       manageText: 'Manage Requests',
+    //       links: [
+    //         { href: 'createStudennt.php', text: 'Attendance Requests' },
+    //         { href: 'createStudennt.php', text: 'Doc Update Requests' },
+    //       ]
+    //     },
+    //   ]
+    // },
   ],
   link: {
     title: 'Dashboard',
@@ -126,25 +126,25 @@ export let teacherConstant = {
 
 export let studentConstant = {
   sections: [
-    {
-      title: 'Work',
-      items: [
-        {
-          icon: 'fas fa-chalkboard',
-          manageText: 'Manage Assignments',
-          links: [
-            { href: 'createAssignment.php', text: 'Create Assignment' },
-          ]
-        },
-        {
-          icon: 'fas fa-chalkboard',
-          manageText: 'Manage Notes',
-          links: [
-            { href: 'createNotes.php', text: 'Create Notes' },
-          ]
-        },
-      ]
-    },
+    // {
+    //   title: 'Work',
+    //   items: [
+    //     {
+    //       icon: 'fas fa-chalkboard',
+    //       manageText: 'Manage Assignments',
+    //       links: [
+    //         { href: 'createAssignment.php', text: 'Create Assignment' },
+    //       ]
+    //     },
+    //     {
+    //       icon: 'fas fa-chalkboard',
+    //       manageText: 'Manage Notes',
+    //       links: [
+    //         { href: 'createNotes.php', text: 'Create Notes' },
+    //       ]
+    //     },
+    //   ]
+    // },
     {
       title: 'Attendance',
       items: [
@@ -157,19 +157,19 @@ export let studentConstant = {
         },
       ]
     },
-    {
-      title: 'Requests',
-      items: [
-        {
-          icon: 'fas fa-chalkboard',
-          manageText: 'Create Requests',
-          links: [
-            { href: 'requestAttendance.php', text: 'Request Attendance' },
-            { href: 'requestDocUpdate.php', text: 'Request Doc Update' },
-          ]
-        },
-      ]
-    },
+    // {
+    //   title: 'Requests',
+    //   items: [
+    //     {
+    //       icon: 'fas fa-chalkboard',
+    //       manageText: 'Create Requests',
+    //       links: [
+    //         { href: 'requestAttendance.php', text: 'Request Attendance' },
+    //         { href: 'requestDocUpdate.php', text: 'Request Doc Update' },
+    //       ]
+    //     },
+    //   ]
+    // },
   ],
   link: {
     title: 'Dashboard',
