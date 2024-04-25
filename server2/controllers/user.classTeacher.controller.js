@@ -3,6 +3,7 @@ require('../helpers/associations');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const {Op} = require('sequelize');
+const xlsx = require('xlsx');
 
 async function dashboard(req, res) {
     try {
@@ -248,6 +249,8 @@ async function takeAttendance(req, res) {
             if (admissionNo) {
                 return models.tblattendance.update({ status: '1' }, {
                     where: {
+                        classId,
+                        classArmId,
                         admissionNumber: admissionNo
                     }
                 });
@@ -483,6 +486,77 @@ async function getAllStudents(req, res) {
 }
 
 
+async function downloadAttendance(req, res) {
+    try {
+        const token = req.cookies.jwtoken;
+        const decodedToken = jwt.verify(token, process.env.JWT_KEY);
+        const id = decodedToken.userId;
+        const teacher = await models.tblclassteacher.findOne({
+            attributes: ["classId", "classArmId"],
+            where: { id }
+        });
+        if (!teacher) {
+            return res.status(404).send("Teacher not found");
+        }
+        const { classId, classArmId } = teacher.dataValues;
+
+        const dateTaken = moment().format('YYYY-MM-DD');
+
+        const attendance = await models.tblattendance.findAll({
+            where: {
+                classId,
+                classArmId,
+                dateTimeTaken: dateTaken,
+                status: '1'
+            },
+            include: [
+                {
+                    model: models.tblclass,
+                    required: true
+                },
+                {
+                    model: models.tblclassarms,
+                    required: true
+                },
+                {
+                    model: models.tblsessionterm,
+                    required: true,
+                    include: [{
+                        model: models.tblterm,
+                        required: true
+                    }]
+                }
+            ]
+        });
+
+        if (!attendance) {
+            return res.status(404).send("No attendance records found for today");
+        }
+        
+        let data = attendance.map(record => ({
+            'Admission Number': record.admissionNumber,
+            'Class Name': record.tblclass.className,
+            'Class Arm Name': record.tblclassarm.classArmName,
+            'Date Taken': record.dateTimeTaken,
+            'Session': record.tblsessionterm.sessionName,
+            'Term': record.tblsessionterm.tblterm.termName,
+            'Status': record.status
+        }));
+
+        let workbook = xlsx.utils.book_new();
+        let worksheet = xlsx.utils.json_to_sheet(data);
+        xlsx.utils.book_append_sheet(workbook, worksheet, 'Attendance');
+        let buffer = xlsx.write(workbook, {type: 'buffer'});
+
+        res.setHeader('Content-Disposition', 'attachment; filename=attendance.xlsx');
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.send(buffer);
+    } catch (error) {
+        return res.status(500).send(`An error occurred: ${error.message}`);
+    }
+}
+
+
 module.exports = {
     dashboard,
     teacherAuth,
@@ -491,5 +565,6 @@ module.exports = {
     takeAttendance,
     viewClassAttendance,
     getAllStudents,
-    viewStudentAttendance
+    viewStudentAttendance,
+    downloadAttendance
 }

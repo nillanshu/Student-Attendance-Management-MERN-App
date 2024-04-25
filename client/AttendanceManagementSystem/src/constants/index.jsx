@@ -7,8 +7,8 @@ export let adminConstant = {
     //       icon: 'fas fa-chalkboard',
     //       manageText: 'Manage Announcements',
     //       links: [
-    //         { href: 'viewAnnouncements.php', text: 'View Announcements' },
-    //         { href: 'createAnnouncement.php', text: 'Create Announcement' },
+    //         { href: 'viewAnnouncements', text: 'View Announcements' },
+    //         { href: 'createAnnouncement', text: 'Create Announcement' },
     //       ]
     //     },
     //   ]
@@ -99,7 +99,7 @@ export let teacherConstant = {
             { href: '/classTeacher/takeAttendance', text: 'Take Attendance' },
             { href: '/classTeacher/viewClassAttendance', text: 'View Class Attendance' },
             { href: '/classTeacher/viewStudentAttendance', text: 'View Student Attendance' },
-            { href: 'downloadRecord.php', text: "Today's Report (xls)" },
+            // { href: 'downloadRecord', text: "Today's Report (xls)" },
           ]
         },
       ]
@@ -111,8 +111,8 @@ export let teacherConstant = {
     //       icon: 'fas fa-chalkboard',
     //       manageText: 'Manage Requests',
     //       links: [
-    //         { href: 'createStudennt.php', text: 'Attendance Requests' },
-    //         { href: 'createStudennt.php', text: 'Doc Update Requests' },
+    //         { href: 'createStudennt', text: 'Attendance Requests' },
+    //         { href: 'createStudennt', text: 'Doc Update Requests' },
     //       ]
     //     },
     //   ]
@@ -133,14 +133,14 @@ export let studentConstant = {
     //       icon: 'fas fa-chalkboard',
     //       manageText: 'Manage Assignments',
     //       links: [
-    //         { href: 'createAssignment.php', text: 'Create Assignment' },
+    //         { href: 'createAssignment', text: 'Create Assignment' },
     //       ]
     //     },
     //     {
     //       icon: 'fas fa-chalkboard',
     //       manageText: 'Manage Notes',
     //       links: [
-    //         { href: 'createNotes.php', text: 'Create Notes' },
+    //         { href: 'createNotes', text: 'Create Notes' },
     //       ]
     //     },
     //   ]
@@ -164,8 +164,8 @@ export let studentConstant = {
     //       icon: 'fas fa-chalkboard',
     //       manageText: 'Create Requests',
     //       links: [
-    //         { href: 'requestAttendance.php', text: 'Request Attendance' },
-    //         { href: 'requestDocUpdate.php', text: 'Request Doc Update' },
+    //         { href: 'requestAttendance', text: 'Request Attendance' },
+    //         { href: 'requestDocUpdate', text: 'Request Doc Update' },
     //       ]
     //     },
     //   ]
