@@ -63,6 +63,7 @@ router.patch('/classTeacher/takeAttendance', checkAuth.CheckTeacherAuth, teacher
 router.post('/classTeacher/viewClassAttendance', checkAuth.CheckTeacherAuth, teacherController.viewClassAttendance);
 router.get('/classTeacher/getAllStudents', checkAuth.CheckTeacherAuth, teacherController.getAllStudents);
 router.post('/classTeacher/viewStudentAttendance', checkAuth.CheckTeacherAuth, teacherController.viewStudentAttendance);
+router.get('/classTeacher/downloadAttendance', checkAuth.CheckTeacherAuth, teacherController.downloadAttendance);
 
 // class teacher routes end
 

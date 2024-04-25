@@ -1,4 +1,5 @@
 import axios from 'axios';
+import download from 'downloadjs';
 
 export async function fetchClassAttendance(date) {
     const res = await axios.post('/user/classTeacher/viewClassAttendance', 
@@ -77,4 +78,19 @@ export async function takeAttendance(check) {
         throw error;
     }
     return res;
+}
+
+export async function downloadAttendance() {
+    try {
+        const res = await axios.get('/user/classTeacher/downloadAttendance', {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            responseType: 'blob'
+        });
+        
+        download(res.data, 'attendance.xlsx');
+    } catch (error) {
+        console.error('An error occurred while downloading the attendance file:', error);
+    }
 }

@@ -124,6 +124,26 @@ const TakeAttendance = () => {
       });
   }
 
+  function downloadAttendance(e) {
+    e.preventDefault();
+    
+    api.downloadAttendance()
+      .then(res => {
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'attendance.xlsx');
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        if (error.response && error.response.data && error.response.data.message) {
+          setStatusMsg(error.response.data.message);
+        }
+      });
+  }
+
   return (
     <div className="container-fluid" id="container-wrapper">
       <Location location={location} /> <h3> Today's Date: {date}</h3>
@@ -138,7 +158,7 @@ const TakeAttendance = () => {
                 </div>
                 <div className="table-responsive p-3">
                   <div className="form-group row mb-3">
-                    <div className='ml-3'>
+                    <div className='ml-3 d-flex align-items-center justify-content-between'>
                       <label className="form-control-label mr-2">Search:</label>
                       <input
                         type="text"
@@ -146,6 +166,9 @@ const TakeAttendance = () => {
                         onChange={handleFilter}
                         placeholder="Search"
                       />
+                      <form onSubmit={downloadAttendance} className="ml-3">
+                        <button type="submit" className='btn btn-primary'>Download Attendance</button>
+                      </form>
                     </div>
                   </div>
                   <DataTable
