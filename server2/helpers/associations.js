@@ -12,6 +12,15 @@ models.tblclassteacher.belongsTo(models.tblclassarms, { foreignKey: 'classArmId'
 models.tblsubject.hasMany(models.tblclassteacher, {foreignKey: 'subjId'});
 models.tblclassteacher.belongsTo(models.tblsubject, { foreignKey: 'subjId' });
 
+models.tblclass.hasMany(models.tblsubjteacher, {foreignKey: 'classId'});
+models.tblsubjteacher.belongsTo(models.tblclass, { foreignKey: 'classId' });
+
+models.tblclassarms.hasMany(models.tblsubjteacher, {foreignKey: 'classArmId'});
+models.tblsubjteacher.belongsTo(models.tblclassarms, { foreignKey: 'classArmId' });
+
+models.tblsubject.hasMany(models.tblsubjteacher, {foreignKey: 'subjId'});
+models.tblsubjteacher.belongsTo(models.tblsubject, { foreignKey: 'subjId' });
+
 models.tblterm.hasMany(models.tblsessionterm, {foreignKey: 'termId'});
 models.tblsessionterm.belongsTo(models.tblterm, { foreignKey: 'termId' });
 
@@ -32,4 +41,7 @@ models.tblattendance.belongsTo(models.tblsessionterm, { foreignKey: 'sessionTerm
 
 models.tblstudents.hasMany(models.tblattendance, { foreignKey: 'admissionNumber' });
 models.tblattendance.belongsTo(models.tblstudents, { foreignKey: 'admissionNumber' });
+
+models.tblsubject.hasMany(models.tblattendance, {foreignKey: 'subjId'});
+models.tblattendance.belongsTo(models.tblsubject, { foreignKey: 'subjId' });
 

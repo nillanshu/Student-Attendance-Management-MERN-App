@@ -251,7 +251,8 @@ async function takeAttendance(req, res) {
                     where: {
                         classId,
                         classArmId,
-                        admissionNumber: admissionNo
+                        admissionNumber: admissionNo,
+                        dateTimeTaken: dateTaken
                     }
                 });
             }
@@ -265,8 +266,6 @@ async function takeAttendance(req, res) {
     }
 }
 
-// BUG - not getting the student first name and last name from tblstudents
-// gotta add subjId atrribute to tblattendance
 async function viewClassAttendance(req, res) {
     try {
         const dateTimeTaken = req.body.dateTimeTaken;
