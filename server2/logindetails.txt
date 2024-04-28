@@ -15,3 +15,9 @@
     "emailAddress":"test5@mail.com",
     "password":"pass123"
 }
+
+{
+    "userType": "SubjectTeacher",
+    "emailAddress":"subjteacher@mail.com",
+    "password":"subjteacher"
+}

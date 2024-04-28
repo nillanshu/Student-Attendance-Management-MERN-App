@@ -20,6 +20,13 @@ import ViewStudentAttn from './ClassTeacher/pages/viewStudentAttn'
 import TakeAttendance from './ClassTeacher/pages/takeAttendance'
 import ViewAttendance from './Student/pages/viewAttendance'
 
+import SubjTeacher from './SubjTeacher/Index'
+import SubjTeacherDashboard from './SubjTeacher/pages/Dashboard'
+import TakeSubjAttendance from './SubjTeacher/pages/takeAttendance'
+import ViewSubjClassAttendance from './SubjTeacher/pages/viewClassAttn'
+import ViewSubjStudentAttendance from './SubjTeacher/pages/viewStudentAttn'
+import ViewSubjStudents from './SubjTeacher/pages/viewStudents'
+
 function App() {
 
   return (
@@ -41,6 +48,13 @@ function App() {
             <Route path='/ClassTeacher/viewClassAttendance' element={ <ViewClassAttn /> }/>
             <Route path='/ClassTeacher/viewStudentAttendance' element={ <ViewStudentAttn /> }/>
             <Route path='/ClassTeacher/takeAttendance' element={ <TakeAttendance /> }/>
+          </Route>
+          <Route path='SubjTeacher' element={ <SubjTeacher /> } >
+            <Route path='/SubjTeacher/dashboard' element={ <SubjTeacherDashboard /> }/>
+            <Route path='/SubjTeacher/takeAttendance' element={ <TakeSubjAttendance /> }/>
+            <Route path='/SubjTeacher/viewClassAttendance' element={ <ViewSubjClassAttendance /> }/>
+            <Route path='/SubjTeacher/viewStudentAttendance' element={ <ViewSubjStudentAttendance /> }/>
+            <Route path='/SubjTeacher/viewStudents' element={ <ViewSubjStudents /> }/>
           </Route>
           <Route path='Student' element={ <Student /> } >
             <Route path='/Student/dashboard' element={ <StudentDashboard /> }/>
