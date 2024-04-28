@@ -2,6 +2,7 @@ const express = require('express');
 const userController = require('../controllers/user.controller');
 const adminController = require('../controllers/user.admin.controller');
 const teacherController = require('../controllers/user.classTeacher.controller');
+const subjTeacherController = require('../controllers/user.subjTeacher.controller');
 const studentController = require('../controllers/user.student.controller');
 const checkAuth = require('../middleware/check-auth');
 
@@ -66,6 +67,21 @@ router.post('/classTeacher/viewStudentAttendance', checkAuth.CheckTeacherAuth, t
 router.get('/classTeacher/downloadAttendance', checkAuth.CheckTeacherAuth, teacherController.downloadAttendance);
 
 // class teacher routes end
+
+// Subject Teacher routes start
+
+router.post('/subjTeacher/authenticate', subjTeacherController.teacherAuth);
+
+router.post('/subjTeacher/dashboard', checkAuth.CheckSubjTeacherAuth, subjTeacherController.dashboard);
+router.get('/subjTeacher/viewStudents', checkAuth.CheckSubjTeacherAuth, subjTeacherController.viewStudents);
+router.post('/subjTeacher/loadTakeAttendancePage', checkAuth.CheckSubjTeacherAuth, subjTeacherController.loadTakeAttendancePage);
+router.patch('/subjTeacher/takeAttendance', checkAuth.CheckSubjTeacherAuth, subjTeacherController.takeAttendance);
+router.post('/subjTeacher/viewClassAttendance', checkAuth.CheckSubjTeacherAuth, subjTeacherController.viewClassAttendance);
+router.get('/subjTeacher/getAllStudents', checkAuth.CheckSubjTeacherAuth, subjTeacherController.getAllStudents);
+router.post('/subjTeacher/viewStudentAttendance', checkAuth.CheckSubjTeacherAuth, subjTeacherController.viewStudentAttendance);
+router.get('/subjTeacher/downloadAttendance', checkAuth.CheckSubjTeacherAuth, subjTeacherController.downloadAttendance);
+
+// Subject Teacher routes end
 
 // student routes start
 router.post('/student/authenticate', studentController.studentAuth);

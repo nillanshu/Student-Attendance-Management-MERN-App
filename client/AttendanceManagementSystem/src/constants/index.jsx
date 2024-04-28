@@ -176,3 +176,52 @@ export let studentConstant = {
     href: '/Student/dashboard'
   }
 }
+
+export let subjTeacherConstant = {
+  sections: [
+    {
+      title: 'Students',
+      items: [
+        {
+          icon: 'fas fa-chalkboard',
+          manageText: 'Manage Students',
+          links: [
+            { href: '/SubjTeacher/viewStudents', text: 'View Students' },
+          ]
+        },
+      ]
+    },
+    {
+      title: 'Attendance',
+      items: [
+        {
+          icon: 'fas fa-chalkboard',
+          manageText: 'Manage Attendance',
+          links: [
+            { href: '/SubjTeacher/takeAttendance', text: 'Take Attendance' },
+            { href: '/SubjTeacher/viewClassAttendance', text: 'View Class Attendance' },
+            { href: '/SubjTeacher/viewStudentAttendance', text: 'View Student Attendance' },
+            // { href: 'downloadRecord', text: "Today's Report (xls)" },
+          ]
+        },
+      ]
+    },
+    // {
+    //   title: 'Requests',
+    //   items: [
+    //     {
+    //       icon: 'fas fa-chalkboard',
+    //       manageText: 'Manage Requests',
+    //       links: [
+    //         { href: 'createStudennt', text: 'Attendance Requests' },
+    //         { href: 'createStudennt', text: 'Doc Update Requests' },
+    //       ]
+    //     },
+    //   ]
+    // },
+  ],
+  link: {
+    title: 'Dashboard',
+    href: '/SubjTeacher/dashboard'
+  }
+}

@@ -30,6 +30,9 @@ const Login = () => {
           case "ClassTeacher":
             navigate('/ClassTeacher/dashboard');
             break;
+          case "SubjectTeacher":
+            navigate('/SubjTeacher/dashboard');
+            break;
           case "Student":
             navigate('/Student/dashboard');
             break;
@@ -66,6 +69,7 @@ const Login = () => {
                                 <option value="">--Select User Roles--</option>
                                 <option value="Administrator">Administrator</option>
                                 <option value="ClassTeacher">ClassTeacher</option>
+                                <option value="SubjectTeacher">SubjectTeacher</option>
                                 <option value="Student">Student</option>
                             </select>
                             </div>
