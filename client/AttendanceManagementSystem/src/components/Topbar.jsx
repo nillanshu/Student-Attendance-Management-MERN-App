@@ -3,7 +3,7 @@ import userIcon from '../img/user-icn.png'
 import logoutApi from '../api/api.logout'
 import { useNavigate } from 'react-router-dom'
 
-const Topbar = ({user}) => {
+const Topbar = ({user, onSidebarToggle}) => {
 
   const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ const Topbar = ({user}) => {
   return (
     <>
       <nav className="navbar navbar-expand navbar-light bg-gradient-primary topbar mb-4 static-top">
-        <button id="sidebarToggleTop" className="btn btn-link rounded-circle mr-3">
+        <button id="sidebarToggleTop" className="btn btn-link rounded-circle mr-3" onClick={onSidebarToggle}>
           <i className="fa fa-bars"></i>
         </button>
         <div className="text-white big" ><b></b></div>
