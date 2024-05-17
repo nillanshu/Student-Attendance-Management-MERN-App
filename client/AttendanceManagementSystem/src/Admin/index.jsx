@@ -21,6 +21,11 @@ const index = () => {
 
   const [adminData, setAdminData] = useState({});
   const navigate = useNavigate();
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!isSidebarOpen);
+  };
 
   useEffect(() => {
     adminAuth()
@@ -35,14 +40,14 @@ const index = () => {
 
   return (
     <>
-      <div id="page-top">
+      <div id="page-top" className={`${ isSidebarOpen ? 'sidebar-toggled' : '' }`}>
         <div id="wrapper" style={{ display: 'flex' }}>
           {/* sidebar */}
-          <Sidebar sections={adminConstant.sections} link={adminConstant.link}/>
+          <Sidebar sections={adminConstant.sections} link={adminConstant.link} isOpen={isSidebarOpen}/>
           <div id="content-wrapper" className='d-flex flex-column'>
             <div id="content">
               {/* Topbar */}
-              <Topbar user={adminData ? adminData : {}}/>
+              <Topbar user={adminData ? adminData : {}} onSidebarToggle={toggleSidebar}/>
 
               {/* Container Fluid */}
               <Routes>

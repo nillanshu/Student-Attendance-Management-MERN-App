@@ -66,3 +66,8 @@
     background-color: #ccc;
     cursor: not-allowed;
   }
+
+  .sidebar.toggled .nav-item {
+    margin: 0;
+    padding-bottom: 2rem;
+  }

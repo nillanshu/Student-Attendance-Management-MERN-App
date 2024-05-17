@@ -22,6 +22,11 @@ const index = () => {
 
   const [teacherData, setteacherData] = useState({});
   const navigate = useNavigate();
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!isSidebarOpen);
+  };
 
   useEffect(() => {
     teacherAuth()
@@ -36,14 +41,14 @@ const index = () => {
 
   return (
     <>
-      <div id="page-top">
+      <div id="page-top" className={`${ isSidebarOpen ? 'sidebar-toggled' : '' }`}>
         <div id="wrapper" style={{ display: 'flex' }}>
           {/* sidebar */}
-          <Sidebar sections={teacherConstant.sections} link={teacherConstant.link}/>
+          <Sidebar sections={teacherConstant.sections} link={teacherConstant.link} isOpen={isSidebarOpen}/>
           <div id="content-wrapper" className='d-flex flex-column'>
             <div id="content">
               {/* Topbar */}
-              <Topbar user={teacherData ? teacherData : {}}/>
+              <Topbar user={teacherData ? teacherData : {}} onSidebarToggle={toggleSidebar}/>
 
               {/* Container Fluid */}
               <Routes>

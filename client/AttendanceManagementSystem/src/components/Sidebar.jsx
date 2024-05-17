@@ -2,10 +2,10 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import attnLogo from '../img/logo/attnlg.jpg'
 
-const Sidebar = ({ sections, link = {} }) => {
+const Sidebar = ({ sections, link = {}, isOpen }) => {
   return (
     <>
-        <ul className="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+        <ul className={`navbar-nav sidebar sidebar-light accordion ${ isOpen ? 'toggled' : '' }`} id="accordionSidebar">
         <a className="sidebar-brand d-flex align-items-center bg-gradient-primary justify-content-center" href="index.php">
             <div className="sidebar-brand-icon">
             <img src={attnLogo} alt="Logo" />
