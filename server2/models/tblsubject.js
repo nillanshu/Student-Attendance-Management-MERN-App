@@ -14,7 +14,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   tblsubject.init({
-    subjName: DataTypes.STRING
+    subjName: DataTypes.STRING,
+    classId: DataTypes.STRING,
+    classArmId: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'tblsubject',

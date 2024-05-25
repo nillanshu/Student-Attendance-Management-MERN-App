@@ -45,3 +45,8 @@ models.tblattendance.belongsTo(models.tblstudents, { foreignKey: 'admissionNumbe
 models.tblsubject.hasMany(models.tblattendance, {foreignKey: 'subjId'});
 models.tblattendance.belongsTo(models.tblsubject, { foreignKey: 'subjId' });
 
+models.tblclass.hasMany(models.tblsubject, {foreignKey: 'classId'});
+models.tblsubject.belongsTo(models.tblclass, { foreignKey: 'classId' });
+
+models.tblclassarms.hasMany(models.tblsubject, {foreignKey: 'classArmId'});
+models.tblsubject.belongsTo(models.tblclassarms, { foreignKey: 'classArmId' });

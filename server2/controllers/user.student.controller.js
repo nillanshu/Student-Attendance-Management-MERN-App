@@ -6,29 +6,54 @@ const {Op} = require('sequelize');
 
 async function dashboard(req, res) {
     try {
-        //fetch all data
-        const [students, classes, classArms, totalAttendance] = await Promise.all([
-            models.tblstudents.count(),
-            models.tblclass.count(),
-            models.tblclassarms.count(),
-            models.tblattendance.count(),
-        ]);
+        const rootUser = req.rootUser;
+        const { classId, classArmId, admissionNumber } = rootUser;
 
-        const data = [
-            {
-              rootUser: req.rootUser
-            },
-            {
-              dashboardCounts: {
-                students,
-                classes,
-                classArms,
-                totalAttendance,
-              }
-            }
-        ];
+        const subjects = await models.tblsubject.findAll({
+            attributes: ["id", "subjName"],
+            where: { classId, classArmId }
+        });
 
-        res.status(200).send(data);
+        let whereClause = { 
+            classId, 
+            classArmId, 
+            admissionNumber
+        };
+
+        const options = {
+            attributes: ["id", "admissionNumber", "status", "subjId"],
+            where: whereClause
+        };
+
+        const result = await models.tblattendance.findAll(options);
+
+        if (result) {
+            const totalAttendance = result.length;
+            const presentAttendance = result.filter(record => record.status === '1').length;
+            const overallAttendancePercentage = Math.ceil((presentAttendance / totalAttendance) * 100);
+
+            const subjectWiseAttendance = await Promise.all(subjects.map(async (subject) => {
+                const subjectData = subject.dataValues;
+                const subjectAttendance = result.filter(record => Number(record.subjId) === subjectData.id);
+                const subjectPresentAttendance = subjectAttendance.filter(record => record.status === '1').length;
+                const subjectAttendancePercentage = Math.ceil((subjectPresentAttendance / subjectAttendance.length) * 100);
+            
+                return {
+                    subjName: subjectData.subjName,
+                    attendancePercentage: isNaN(subjectAttendancePercentage) ? 0 : subjectAttendancePercentage
+                };
+            }));
+
+            res.status(200).json([
+                {
+                    subjName: "Overall Attendance",
+                    attendancePercentage: overallAttendancePercentage
+                },
+                ...subjectWiseAttendance
+            ]);
+        } else {
+            res.status(400).send("An error occurred while fetching attendance!");
+        }
     } catch(error) {
         res.status(500).json({
             message: "Something went wrong!",

@@ -97,7 +97,19 @@ async function CheckStudentAuth(req, res, next) {
         }
         const rootUser = await models.tblstudents.findOne({
             where: { emailAddress: verifyToken.emailAddress, id: verifyToken.userId },
-            attributes: ['firstName', 'lastName', 'emailAddress']
+            attributes: ['firstName', 'lastName', 'admissionNumber', 'classId', 'classArmId'],
+            include: [
+                {
+                    model: models.tblclass,
+                    attributes: ['className'],
+                    required: true
+                },
+                {
+                    model: models.tblclassarms,
+                    attributes: ['classArmName'],
+                    required: true
+                }
+            ],
         });
         if (!rootUser) { throw new Error('User not found') }
         req.token = token;
