@@ -71,3 +71,16 @@
     margin: 0;
     padding-bottom: 2rem;
   }
+
+  svg {
+    display: block;
+    margin: 10px auto;
+    transform: rotate(0deg);
+  }
+  
+  circle {
+    transition: stroke-dashoffset 0.7s;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+  }
+  
