@@ -1,0 +1,63 @@
+services:
+  mysqldb:
+    image: mysql:8.0
+    container_name: mysqldb
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    volumes:
+      - ./server2/dbinit/ams.sql:/docker-entrypoint-initdb.d/ams.sql
+      - /c/mysql/data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=ams
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - internalnet
+  
+  amsserver:
+    image: amsserver:v1
+    container_name: amsserver
+    build: ./server2
+    volumes:
+      - ./server2/:/app
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    depends_on:
+      - mysqldb
+    environment:
+      - MYSQL_HOST=mysqldb
+      - MYSQL_PORT=3306
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=ams
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - SERVICE_TAGS=development
+      - SERVICE_NAME=amsserver
+      - SERVER_PORT=3000
+      - NODE_ENV=development
+      - JWT_KEY=secret
+      - PORT=3000
+    networks:
+      - internalnet
+
+  amsclient:
+    image: amsclient:v1
+    build: ./client/AttendanceManagementSystem
+    container_name: amsclient
+    ports:
+      - "5173:5173"
+    expose:
+      - "5173"
+    depends_on:
+      - amsserver
+    networks:
+      - internalnet
+
+networks:
+  internalnet:
+    driver: bridge
