@@ -68,6 +68,19 @@ export let adminConstant = {
         },
       ]
     },
+    {
+      title: 'Time-Table',
+      items: [
+        {
+          icon: 'fas fa-chalkboard',
+          manageText: 'Manage Time-Table',
+          links: [
+            { href: '/Admin/facultyTimeTable', text: 'Create Faculty Time-Table' },
+            { href: '/Admin/classTimeTable', text: 'Create Class Time-Table' },
+          ]
+        },
+      ]
+    },
   ],
   link: {
     title: 'Dashboard',
